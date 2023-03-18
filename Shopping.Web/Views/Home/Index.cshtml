@@ -12,8 +12,8 @@
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
 
                     <div class="z-index-3 position-absolute text-end mx-4 mt-3 bg-transparent " style="width:90%;height:50%">
-                        <button className="btn btn-danger favori-btn" style="border-radius: 5px; border-width: 0px; color:rgb(255 255 255);border-color: rgb(123,128,154);background-color: rgb(229,51,113); width: 45px;height: 38px;">
-                            <i class="fa-solid fa-heart-circle-plus"></i>
+                        <button id="@("fvrBtn_"+item.Id)" className="btn btn-danger favori-btn" style="border-radius: 5px; border-width: 0px; color:rgb(255 255 255);border-color: rgb(123,128,154); @(item.IsFavorite ? "background-color: rgb(240 129 31)" : "background-color: rgb(229,51,113)"); width: 45px;height: 38px;" onclick="addOrRemoveFavorite(@item.Id)">
+                            <i class="fa-solid @(item.IsFavorite ? "fa-heart-circle-minus" : "fa-heart-circle-plus")"></i>
                         </button>
                     </div>
                     <div class="shadow-primary z-index-2">
@@ -42,35 +42,35 @@
 </div>
 
 <script>
-    function addToCart (productId){
-
+    function addToCart(productId) {
+       
         $.ajax({
             url: '@Url.Action("AddToCart","Home")',
             type: 'POST',
             dataType: 'json',
-            data: 
-                { 
-                    productId: productId  
-                },
+            data:
+            {
+                productId: productId
+            },
             success: function (result) {
 
                 if (result) {
                     notificationAlert("success", "SUCCESS!!!", "The product has been added to cart successfully!!!")
 
                     $.ajax({
-                        url: '@Url.Action("GetCartQuantity","Home")',
+                        url: '@Url.Action("GetAllCartsQuantity","Home")',
                         type: 'POST',
                         dataType: 'json',
-                        data:null,
+                        data: null,
                         success: function (quantity) {
-                           $("#cartQuantity")[0].innerText = quantity;       
+                            $("#navbarCartsQuantity")[0].innerText = quantity;
                         }
                     });
-               }
+                }
 
-               else{
+                else {
                     notificationAlert("danger", "ERROR!!!", "The product has not been added to cart!!!")
-               }
+                }
             },
             error: function (e) {
 
@@ -78,5 +78,78 @@
         });
     }
 
+    function addOrRemoveFavorite(productId) {
+        //debugger;
+        if ($("#fvrBtn_"+productId + " i").hasClass("fa-heart-circle-plus")) {
+            $("#fvrBtn_"+productId).css("background-color", "rgb(240 129 31)");
+            $("#fvrBtn_"+productId + " i").removeClass("fa-heart-circle-plus");
+            $("#fvrBtn_"+productId + " i").addClass("fa-heart-circle-minus");
+            addToFavorite(productId);
+
+        } 
+        else 
+        {
+            $("#fvrBtn_"+productId).css("background-color", "rgb(229,51,113)");
+            $("#fvrBtn_"+productId + " i").removeClass("fa-heart-circle-minus");
+            $("#fvrBtn_"+productId + " i").addClass("fa-heart-circle-plus");        
+            removeFromFavorite(productId);
+        }
+    }
+
+    function addToFavorite(productId) {
+        $.ajax({
+            url: '@Url.Action("AddToFavorite","Home")',
+            type: 'POST',
+            dataType: 'json',
+            data:
+            {
+                productId: productId
+            },
+            success: function (result) {
+
+                $.ajax({
+                    url: '@Url.Action("GetAllFavoritesQuantity","Home")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: null,
+                    success: function (quantity) {
+                        $("#favoriteQuantity")[0].innerText = quantity;
+                    }
+                });
+            },
+            error: function (e) {
+
+            }
+        });
+    }
+    function removeFromFavorite(productId) {
+        $.ajax({
+            url: '@Url.Action("RemoveFromFavorite","Home")',
+            type: 'POST',
+            dataType: 'json',
+            data:
+            {
+                productId: productId
+            },
+            success: function (result) {
+
+                $.ajax({
+                    url: '@Url.Action("GetAllFavoritesQuantity","Home")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: null,
+                    success: function (quantity) {
+                        $("#favoriteQuantity")[0].innerText = quantity;
+                    }
+                });
+            },
+            error: function (e) {
+
+            }
+        });
+    }
 </script>
 
+@*rgb(240 129 31)
+    fa-heart-circle-minus
+*@

@@ -13,6 +13,6 @@ namespace DataAccessLayer.Repositories.Interfaces
         void Add(Cart cart);
         void Delete (int id);
         void Update(Cart cart);
-        Cart GetCart(int id,int userId);
+        Cart GetCart(int productId,int userId);
     }
 }

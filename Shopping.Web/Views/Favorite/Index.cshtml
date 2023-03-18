@@ -40,6 +40,8 @@
         width: 100%;
     }
 </style>
+
+@model List<FavoriteModel>
 <section class="h-100 " style="background-color: #d2c9ff;">
     <div class="container py-5 pt-1" style="background-color:rgb(248,249,250)">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -50,35 +52,36 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 shopping-cart">
                                 <div class="p-5">
                                     <div class="d-flex justify-content-between align-items-center mb-5">
-                                        <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
-                                        <h6 class="mb-0 text-muted">3 items</h6>
+                                        <h1 class="fw-bold mb-0 text-black">Favorite Cart</h1>
+                                        <h6 class="mb-0 text-muted" id="sFavoriteQuantity">@ViewData["FavoriteQuantity"] items</h6>
                                     </div>
 
-                                    <hr class="my-4">
+                                    @foreach (var item in Model)
+                                    {
+                                        <hr class="my-4">
 
-                                    <div class="row mb-4 d-flex justify-content-between align-items-center">
-                                        <div class="col-md-2 col-lg-2 col-xl-2">
-                                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img7.webp"
-                                                 class="img-fluid rounded-3" alt="Cotton T-shirt">
-                                        </div>
-                                        <div class="col-md-3 col-lg-3 col-xl-3">
-                                            <h6 class="text-muted">Shirt</h6>
-                                            <h6 class="text-black mb-0">Cotton T-shirt</h6>
-                                        </div>
-                                         <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                            <h6 class="mb-0">€ 44.00</h6>
-                                        </div>
-                                        <div class="col-md-3 col-lg-3 col-xl-2 mt-3 ">
-                                            <div class="text-center">
-                                                <a class="btn bg-gradient-primary w-90 ">Add to cart</a>
+                                        <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                            <div class="col-md-3 col-lg-3 col-xl-3">
+                                                <img src="@item.Product.ImgLink"
+                                                 class="img-fluid rounded-3" alt="">
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-xl-3 text-center">
+                                                <h6 class="text-muted">@item.Product.Category.Name</h6>
+                                                <h6 class="text-black mb-0">@item.Product.Title</h6>
+                                            </div>
+                                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                                <h6 class="mb-0">@string.Format("{0:N2} €", item.Product.Price)</h6>
+                                            </div>
+                                             <div class="col-md-3 col-lg-3 col-xl-2 mt-3 ">
+                                                <div class="text-center">
+                                                    <a class="btn bg-gradient-primary w-90 " onclick="addToCart(@item.ProductId)">Add to cart</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 col-lg-1 col-xl-1 text-end ">
+                                                <a onclick="deleteFavorite(@item.ProductId)" class="text-muted cursor-pointer"><i class="fas fa-times"></i></a>
                                             </div>
                                         </div>
-                                       
-                                        <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                            <a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
-                                        </div>
-                                    </div>
-
+                                    }
                                     <hr class="my-4">
 
                                     @*<div class="pt-5">
@@ -98,3 +101,59 @@
         </div>
     </div>
 </section>
+<script>
+    function addToCart(productId) {
+
+        $.ajax({
+            url: '@Url.Action("AddToCart","Favorite")',
+            type: 'POST',
+            dataType: 'json',
+            data:
+            {
+                productId: productId
+            },
+            success: function (result) {
+
+                if (result) {
+                    notificationAlert("success", "SUCCESS!!!", "The product has been added to cart successfully!!!")
+
+                    $.ajax({
+                        url: '@Url.Action("GetAllCartsQuantity","Home")',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: null,
+                        success: function (quantity) {
+                            $("#navbarCartsQuantity")[0].innerText = quantity;
+                        }
+                    });
+                }
+
+                else {
+                    notificationAlert("danger", "ERROR!!!", "The product has not been added to cart!!!")
+                }
+            },
+            error: function (e) {
+
+            }
+        });
+    }
+
+    function deleteFavorite(productId) {
+
+        $.ajax({
+            url: '@Url.Action("DeleteFavorite","Favorite")',
+            type: 'POST',
+            dataType: 'json',
+            data:
+            {
+                productId: productId
+            },
+            success: function () {
+                window.location.href = "/Favorite/Index/";
+            },
+            error: function (e) {
+
+            }
+        });
+    }
+</script>

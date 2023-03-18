@@ -54,7 +54,7 @@
                                 <div class="p-5">
                                     <div class="d-flex justify-content-between align-items-center mb-5">
                                         <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
-                                        <h6 class="mb-0 text-muted" id="">@ViewData["CartQuantity"] items</h6>
+                                        <h6 class="mb-0 text-muted" id="sTotalItems">@ViewData["TotalCartsQuantity"] Items</h6>
                                     </div>
                                     @foreach (var item in Model)
                                     {
@@ -75,7 +75,7 @@
                                                     <i class="fas fa-minus"></i>
                                                 </button>
 
-                                                <input id="form1" min="0" name="quantity" value="@item.Quantity" type="number"
+                                                <input id="@("quantity_" + item.ProductId)" min="0" name="quantity" value="@item.Quantity" type="number"
                                                    class="form-control form-control-sm text-center quantity-field my-auto ms-2" />
 
                                                 <button class="btn btn-link px-2 my-auto"
@@ -108,8 +108,8 @@
                                     <hr class="my-4">
 
                                     <div class="d-flex justify-content-between mb-4">
-                                        <h5 class="text-uppercase">items 3</h5>
-                                        <h5>€ 132.00</h5>
+                                        <h5 class="text-uppercase " id="bTotalItems">@ViewData["TotalCartsQuantity"] Items</h5>
+                                        <h5 id="sTotalPrice">@ViewData["TotalPrice"] </h5>
                                     </div>
 
                                     <h5 class="text-uppercase mb-3">Give code</h5>
@@ -125,7 +125,7 @@
 
                                     <div class="d-flex justify-content-between mb-5">
                                         <h5 class="text-uppercase">Total price</h5>
-                                        <h5>€ 137.00</h5>
+                                        <h5 id="bTotalPrice">@ViewData["TotalPrice"]</h5>
                                     </div>
 
                                     <button type="button" class="btn btn-dark btn-block btn-lg"
@@ -155,23 +155,9 @@
                 id: id
             },
             success: function () {
-
-
                 notificationAlert("success", "SUCCESS!!!", "The product removed successfully!!!")
 
                 window.location.href = "/Cart/Index/";
-                //$.ajax({
-                //    url: '@Url.Action("GetCartQuantity","Home")',
-                //    type: 'POST',
-                //    dataType: 'json',
-                //    data: null,
-                //    success: function (quantity) {
-                //        $("#cartQuantity")[0].innerText = quantity;
-                //    }
-                //});
-
-
-
             },
             error: function (e) {
 
@@ -179,9 +165,10 @@
         });
     }
 
-    function increaseCartQuantity (id){
-    
-        this.parentNode.querySelector('input[type=number]').stepUp()
+    function increaseCartQuantity(id) {
+
+        var newValue = parseInt($("#quantity_" + id).val()) + 1;
+        $("#quantity_" + id).val(newValue);
 
         $.ajax({
             url: '@Url.Action("IncreaseCartQuantity","Cart")',
@@ -194,13 +181,30 @@
             success: function () {
 
                 $.ajax({
-                    url: '@Url.Action("GetCartQuantity","Cart")',
+                    url: '@Url.Action("GetAllCartsQuantity","Cart")',
                     type: 'POST',
                     dataType: 'json',
                     data: null,
                     success: function (quantity) {
-                        $("#cartQuantity")[0].innerText = quantity;
-                    }
+                       $("#navbarCartsQuantity")[0].innerText = quantity;
+                        $("#sTotalItems")[0].innerText = quantity + " Items"
+                        $("#bTotalItems")[0].innerText = quantity + " Items"
+    
+                        }
+                });
+
+                
+                $.ajax({
+                    url: '@Url.Action("GetTotalCartsPrice","Cart")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: null,
+                    success: function (totalPrice) {
+                        $("#bTotalPrice")[0].innerText = totalPrice
+                        $("#sTotalPrice")[0].innerText = totalPrice
+                      
+    
+                        }
                 });
             },
             error: function (e) {
@@ -211,7 +215,17 @@
 
     function decreaseCartQuantity(id) {
 
-        this.parentNode.querySelector('input[type=number]').stepDown()
+        var newValue = parseInt($("#quantity_" + id).val()) - 1;
+
+        if (newValue>0){
+
+            $("#quantity_" + id).val(newValue);
+        }
+        else{
+            $("#quantity_" + id).val(0);
+        }
+
+        
 
         $.ajax({
             url: '@Url.Action("DecreaseCartQuantity","Cart")',
@@ -223,12 +237,31 @@
             },
             success: function () {
                 $.ajax({
-                    url: '@Url.Action("GetCartQuantity","Cart")',
+                    url: '@Url.Action("GetAllCartsQuantity","Cart")',
                     type: 'POST',
                     dataType: 'json',
                     data: null,
                     success: function (quantity) {
-                        $("#cartQuantity")[0].innerText = quantity;
+                        $("#navbarCartsQuantity")[0].innerText = quantity;
+                        $("#sTotalItems")[0].innerText = quantity + " Items"
+                        $("#bTotalItems")[0].innerText = quantity + " Items"
+                       
+
+                        
+                    }
+                });
+
+
+                $.ajax({
+                    url: '@Url.Action("GetTotalCartsPrice","Cart")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: null,
+                    success: function (totalPrice) {
+                        $("#bTotalPrice")[0].innerText = totalPrice 
+                        $("#sTotalPrice")[0].innerText = totalPrice 
+
+
                     }
                 });
 

@@ -20,6 +20,8 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductManagement, ProductManagement>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<ICartManagement, CartManagement>();
+builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
+builder.Services.AddScoped<IFavoriteManagement, FavoriteManagement>();
 
 
 var app = builder.Build();
@@ -43,6 +45,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Cart}/{action=Index}");
+    pattern: "{controller=Login}/{action=Index}");
 
 app.Run();

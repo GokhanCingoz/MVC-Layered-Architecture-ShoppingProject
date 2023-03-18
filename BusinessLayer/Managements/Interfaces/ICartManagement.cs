@@ -11,9 +11,11 @@ namespace BusinessLayer.Managements.Interfaces
     {
         List<Cart> GetAllCartByUserId(int id);
         void AddCart(Cart cart);
-        void Delete(int id);
-        void Update(Cart cart);
-        int GetCartQuantity(int userId);
+        void DeleteCart(int id);
+        void UpdateCart(Cart cart);
+        int GetAllCartsQuantity(int userId);
         void DecraseCartQuantity(Cart cart);
+        double TotalPrice(int userId);
+
     }
 }

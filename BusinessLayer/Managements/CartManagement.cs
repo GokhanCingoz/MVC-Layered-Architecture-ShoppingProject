@@ -43,7 +43,7 @@ namespace BusinessLayer.Managements
                 existingCart.Quantity--;
                 if (existingCart.Quantity==0)
                 {
-                    Delete(existingCart.Id);
+                    DeleteCart(existingCart.Id);
                 }
                 else
                 {
@@ -54,7 +54,7 @@ namespace BusinessLayer.Managements
            
         }
 
-        public void Delete(int id)
+        public void DeleteCart(int id)
         {
             cartRepository.Delete(id);
         }
@@ -65,16 +65,23 @@ namespace BusinessLayer.Managements
           
         }
 
-        public void Update(Cart cart)
+        public void UpdateCart(Cart cart)
         {
             cartRepository.Update(cart);
         }
 
-        public int GetCartQuantity(int userId)
+        public int GetAllCartsQuantity(int userId)
         {
             var quantity = cartRepository.GetAllCarts(userId).Sum(x => x.Quantity);
 
             return quantity;
+        }
+
+        public double TotalPrice(int userId)
+        {
+            var totalPrice = cartRepository.GetAllCarts(userId).Sum(x => x.Quantity*x.Product.Price);
+
+            return totalPrice;
         }
     }
 }

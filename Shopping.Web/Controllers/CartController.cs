@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Managements.Interfaces;
+﻿using BusinessLayer.Managements;
+using BusinessLayer.Managements.Interfaces;
 using EntityLayer.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Shopping.Web.Models;
@@ -9,16 +10,19 @@ namespace Shopping.Web.Controllers
     {
         public readonly IProductManagement _productManagement;
         public readonly ICartManagement _cartManagement;
+        public readonly IFavoriteManagement _favoriteManagement;
 
-        public CartController(IProductManagement productManagement, ICartManagement cartManagement)
+
+        public CartController(IProductManagement productManagement, ICartManagement cartManagement, IFavoriteManagement favoriteManagement)
         {
             _productManagement = productManagement;
             _cartManagement = cartManagement;
+            _favoriteManagement = favoriteManagement;
         }
         public IActionResult Index()
         {
             var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
-            var cartQuantity = GetCartQuantity();
+            var cartQuantity = GetAllCartsQuantity();
 
             var carts = _cartManagement.GetAllCartByUserId(userId);
 
@@ -48,23 +52,30 @@ namespace Shopping.Web.Controllers
                 model.Add(cartModel);
             }
 
-            ViewData["CartQuantity"] = cartQuantity;
+            var totalPrice = _cartManagement.TotalPrice(userId);
+
+            ViewData["TotalCartsQuantity"] = cartQuantity;
+            ViewData["TotalPrice"] = string.Format("{0:N2} €", totalPrice);
+
+            var favoritesQuantity = GetAllFavoritesQuantity();
+
+            ViewData["FavoriteQuantity"] = favoritesQuantity;
 
             return View(model);
         }
 
-        public int GetCartQuantity()
+        public int GetAllCartsQuantity()
         {
             var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
 
-            var cartQuantity = _cartManagement.GetCartQuantity(userId);
+            var cartQuantity = _cartManagement.GetAllCartsQuantity(userId);
 
             return cartQuantity;
         }
 
         public IActionResult DeleteCart(int id)
         {
-            _cartManagement.Delete(id);
+            _cartManagement.DeleteCart(id);
 
             return Json(true);
         }
@@ -75,8 +86,9 @@ namespace Shopping.Web.Controllers
 
             var cart = new Cart
             {
-                ProductId= productId,
-                 UserId = userId,
+                ProductId = productId,
+                UserId = userId,
+                Quantity = 1
             };
             _cartManagement.AddCart(cart);
 
@@ -97,6 +109,25 @@ namespace Shopping.Web.Controllers
 
             return Json(true);
 
+        }
+
+        public IActionResult GetTotalCartsPrice()
+        {
+            var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
+
+            var totalPrice = _cartManagement.TotalPrice(userId);
+
+            return Json(string.Format("{0:N2} €", totalPrice));
+
+        }
+
+        public int GetAllFavoritesQuantity()
+        {
+            var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
+
+            var favoriteQuantity = _favoriteManagement.GetAllFavoritesQuantity(userId);
+
+            return favoriteQuantity;
         }
     }
 }

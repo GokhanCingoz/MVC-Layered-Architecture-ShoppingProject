@@ -9,17 +9,24 @@ namespace Shopping.Web.Controllers
     {
         public readonly IProductManagement _productManagement;
         public readonly  ICartManagement _cartManagement;
+        public readonly  IFavoriteManagement _favoriteManagement;
 
-        public HomeController(IProductManagement productManagement, ICartManagement cartManagement)
+        public HomeController(IProductManagement productManagement, ICartManagement cartManagement, IFavoriteManagement favoriteManagement)
         {
             _productManagement = productManagement;
             _cartManagement = cartManagement;
+            _favoriteManagement = favoriteManagement;
         }
 
         [HttpGet]
         [ActionName("Index")]
         public IActionResult Index()
         {
+
+            var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
+
+            var favoriteProductIds = _favoriteManagement.GetAllFavoritesByUserId(userId).Select(x => x.ProductId);
+
             var products = _productManagement.GetAllProduct();
             var model = new List<ProductModel>();
 
@@ -41,31 +48,42 @@ namespace Shopping.Web.Controllers
                     Rating = item.Rating,
                     Stock = item.Stock,
                     Title = item.Title,
+                    IsFavorite = favoriteProductIds.Any(x => x == item.Id)
                 };
                 model.Add(product);
             }
 
             ViewData["Title"] = "Home Page";
 
-            var cartQuantity = GetCartQuantity();
+            var cartQuantity = GetAllCartsQuantity();
 
-            ViewData["CartQuantity"] = cartQuantity;
+            ViewData["TotalCartsQuantity"] = cartQuantity;
+
+            var favoritesQuantity = GetAllFavoritesQuantity();
+
+            ViewData["FavoriteQuantity"] = favoritesQuantity;
+
+            
 
             return View(model);
         }
 
-        public int GetCartQuantity()
+        public int GetAllCartsQuantity()
         {
             var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
 
-            var cartQuantity = _cartManagement.GetCartQuantity(userId);
+            var cartQuantity = _cartManagement.GetAllCartsQuantity(userId);
 
             return cartQuantity;
         }
 
 
         public IActionResult ProductsByCategory(int categoryId)
-        {   
+        {
+            var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
+
+            var favoriteProductIds = _favoriteManagement.GetAllFavoritesByUserId(userId).Select(x => x.ProductId);
+
             var productsFromDatabase=_productManagement.GetProductsByCategoryId(categoryId);
             var model = new List<ProductModel>();
 
@@ -87,12 +105,22 @@ namespace Shopping.Web.Controllers
                     Rating = item.Rating,
                     Stock = item.Stock,
                     Title = item.Title,
+                    IsFavorite = favoriteProductIds.Any(x => x == item.Id)
+
                 };
 
                 model.Add(productByCategoryId); 
             }
 
             ViewData["Title"] = model.FirstOrDefault() != null ? model.FirstOrDefault().Category.Name : "";
+
+            var cartQuantity = GetAllCartsQuantity();
+
+            ViewData["TotalCartsQuantity"] = cartQuantity;
+
+            var favoritesQuantity = GetAllFavoritesQuantity();
+
+            ViewData["FavoriteQuantity"] = favoritesQuantity;
 
             return View("Index", model);
         }
@@ -121,8 +149,37 @@ namespace Shopping.Web.Controllers
                 
             return result;
         }
-        
 
+        public IActionResult AddToFavorite(int productId)
+        {
+            var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
+            
+            var favorite = new Favorite
+            {
+                ProductId = productId,
+                UserId = userId,
+            };
+
+            _favoriteManagement.AddFavorite(favorite);
+
+            return Json(true);
+        }
+
+        public IActionResult RemoveFromFavorite(int productId)
+        {
+            _favoriteManagement.DeleteFavorite(productId);
+
+            return Json(true);
+        }
+
+        public int GetAllFavoritesQuantity()
+        {
+            var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
+
+            var favoriteQuantity = _favoriteManagement.GetAllFavoritesQuantity(userId);
+
+            return favoriteQuantity;
+        }
 
     }
 }

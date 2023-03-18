@@ -45,9 +45,9 @@ namespace DataAccessLayer.Repositories
             _contextDb.SaveChanges();
         }
 
-        public Cart GetCart(int id,int userId)
+        public Cart GetCart(int productId,int userId)
         {
-            return _contextDb.Carts.FirstOrDefault(x=>x.ProductId==id&& x.UserId==userId);
+            return _contextDb.Carts.FirstOrDefault(x=>x.ProductId==productId&& x.UserId==userId);
         }
 
     }

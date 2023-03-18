@@ -259,7 +259,7 @@
                             <a href="/Favorite/Index" class="nav-link text-body font-weight-bold px-0">
                                 <i class="fa-sharp fa-solid fa-heart"></i>
                                 <span class="d-sm-inline d-none">Favorite</span>
-                                <span class="top-10 start-80 translate-middle badge rounded-pill mx-2" style="background-color: rgb(123,128,154);">
+                                <span class="top-10 start-80 translate-middle badge rounded-pill mx-3" style="background-color: rgb(123,128,154);" id="favoriteQuantity">
                                     @ViewData["FavoriteQuantity"]
                                 </span>
 
@@ -270,8 +270,8 @@
                             <a href="/Cart/Index" class="nav-link text-body font-weight-bold px-0">
                                 <i class="fa-solid fa-cart-shopping"></i>
                                 <span class="d-sm-inline d-none">Cart</span>
-                                <span id="cartQuantity" class="top-10 start-80 translate-middle badge rounded-pill mx-3" style="background-color: rgb(123,128,154);height:100%">
-                                    @ViewData["CartQuantity"]
+                                <span id="navbarCartsQuantity" class="top-10 start-80 translate-middle badge rounded-pill mx-3" style="background-color: rgb(123,128,154);height:100%">
+                                    @ViewData["TotalCartsQuantity"]
                                 </span>
 
                             </a>
@@ -577,6 +577,8 @@
     <script src="~/material-dashboard-master/assets/js/plugins/smooth-scrollbar.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 
     <script>
