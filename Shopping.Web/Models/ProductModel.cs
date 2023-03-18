@@ -13,6 +13,6 @@ namespace Shopping.Web.Models
         public int Stock { get; set; }
         public string ImgLink { get; set; }
         public int CategoryId { get; set; }
-        public Category Category { get; set; }
+        public CategoryModel Category { get; set; }
     }
 }

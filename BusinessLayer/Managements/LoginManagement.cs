@@ -18,11 +18,11 @@ namespace BusinessLayer.Managements
         {
             _userRepository = userRepository;
         }
-        public bool LoginControl(string username, string password)
+        public User LoginControl(string username, string password)
         {
             var users = _userRepository.GetAllUsers();
 
-            return users.Any(x => x.Username == username && x.Password == password);
+            return users.FirstOrDefault(x => x.Username == username && x.Password == password);
 
         }
 

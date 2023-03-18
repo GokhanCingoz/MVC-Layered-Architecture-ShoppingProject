@@ -18,7 +18,7 @@
         transition: all .2s linear;
     }
 
-        .form-control:focus{
+        .form-control:focus {
             background-color: #fff;
             border-color: #bdbdbd;
         }
@@ -32,13 +32,17 @@
         background-color: rgb(248,249,250);
         border: 1px solid rgb(234,232,232);
         border-top-left-radius: 16px;
-        border-bottom-left-radius: 16p x;
+        border-bottom-left-radius: 16px;
     }
 
     .quantity-field {
         height: 100%;
+        width: 100%;
     }
+
 </style>
+
+@model List<CartModel>
 <section class="h-100 " style="background-color: #d2c9ff;">
     <div class="container py-5 pt-1" style="background-color:rgb(248,249,250)">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -50,50 +54,51 @@
                                 <div class="p-5">
                                     <div class="d-flex justify-content-between align-items-center mb-5">
                                         <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
-                                        <h6 class="mb-0 text-muted">3 items</h6>
+                                        <h6 class="mb-0 text-muted" id="">@ViewData["CartQuantity"] items</h6>
                                     </div>
-                                   
-                                    <hr class="my-4">
+                                    @foreach (var item in Model)
+                                    {
+                                        <hr class="my-4">
 
-                                    <div class="row mb-4 d-flex justify-content-between align-items-center">
-                                        <div class="col-md-2 col-lg-2 col-xl-2">
-                                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img7.webp"
-                                                 class="img-fluid rounded-3" alt="Cotton T-shirt">
-                                        </div>
-                                        <div class="col-md-3 col-lg-3 col-xl-3">
-                                            <h6 class="text-muted">Shirt</h6>
-                                            <h6 class="text-black mb-0">Cotton T-shirt</h6>
-                                        </div>
-                                        <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                            <button class="btn btn-link px-2 my-auto"
-                                                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                                <i class="fas fa-minus"></i>
-                                            </button>
+                                        <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                                <img src="@item.Product.ImgLink"
+                                                 class="img-fluid rounded-3" alt="">
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-xl-3">
+                                                <h6 class="text-muted">@item.Product.Category.Name</h6>
+                                                <h6 class="text-black mb-0">@item.Product.Title</h6>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                                <button class="btn btn-link px-2 my-auto"
+                                                    onclick="decreaseCartQuantity(@item.ProductId)">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
 
-                                            <input id="form1" min="0" name="quantity" value="1" type="number"
+                                                <input id="form1" min="0" name="quantity" value="@item.Quantity" type="number"
                                                    class="form-control form-control-sm text-center quantity-field my-auto ms-2" />
 
-                                            <button class="btn btn-link px-2 my-auto"
-                                                    onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
+                                                <button class="btn btn-link px-2 my-auto"
+                                                    onclick="increaseCartQuantity(@item.ProductId)">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </div>
+                                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                                <h6 class="mb-0">@string.Format("{0:N2} €", item.Product.Price)</h6>
+                                            </div>
+                                            <div class="col-md-1 col-lg-1 col-xl-1 text-end ">
+                                                <a onclick="deleteCart(@item.Id)" class="text-muted cursor-pointer"><i class="fas fa-times"></i></a>
+                                            </div>
                                         </div>
-                                        <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                            <h6 class="mb-0">€ 44.00</h6>
-                                        </div>
-                                        <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                            <a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
-                                        </div>
-                                    </div>
-
+                                    }
                                     <hr class="my-4">
 
                                     @*<div class="pt-5">
-                                        <h6 class="mb-0">
-                                            <a href="#!" class="text-body">
-                                                <i class="fas fa-long-arrow-alt-left me-2"></i>Back to shop
-                                            </a>
-                                        </h6>
+                                    <h6 class="mb-0">
+                                    <a href="#!" class="text-body">
+                                    <i class="fas fa-long-arrow-alt-left me-2"></i>Back to shop
+                                    </a>
+                                    </h6>
                                     </div>*@
                                 </div>
                             </div>
@@ -137,3 +142,101 @@
         </div>
     </div>
 </section>
+
+<script>
+    function deleteCart(id) {
+
+        $.ajax({
+            url: '@Url.Action("DeleteCart","Cart")',
+            type: 'POST',
+            dataType: 'json',
+            data:
+            {
+                id: id
+            },
+            success: function () {
+
+
+                notificationAlert("success", "SUCCESS!!!", "The product removed successfully!!!")
+
+                window.location.href = "/Cart/Index/";
+                //$.ajax({
+                //    url: '@Url.Action("GetCartQuantity","Home")',
+                //    type: 'POST',
+                //    dataType: 'json',
+                //    data: null,
+                //    success: function (quantity) {
+                //        $("#cartQuantity")[0].innerText = quantity;
+                //    }
+                //});
+
+
+
+            },
+            error: function (e) {
+
+            }
+        });
+    }
+
+    function increaseCartQuantity (id){
+    
+        this.parentNode.querySelector('input[type=number]').stepUp()
+
+        $.ajax({
+            url: '@Url.Action("IncreaseCartQuantity","Cart")',
+            type: 'POST',
+            dataType: 'json',
+            data:
+            {
+                productId: id
+            },
+            success: function () {
+
+                $.ajax({
+                    url: '@Url.Action("GetCartQuantity","Cart")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: null,
+                    success: function (quantity) {
+                        $("#cartQuantity")[0].innerText = quantity;
+                    }
+                });
+            },
+            error: function (e) {
+
+            }
+        });
+    }
+
+    function decreaseCartQuantity(id) {
+
+        this.parentNode.querySelector('input[type=number]').stepDown()
+
+        $.ajax({
+            url: '@Url.Action("DecreaseCartQuantity","Cart")',
+            type: 'POST',
+            dataType: 'json',
+            data:
+            {
+                productId: id
+            },
+            success: function () {
+                $.ajax({
+                    url: '@Url.Action("GetCartQuantity","Cart")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: null,
+                    success: function (quantity) {
+                        $("#cartQuantity")[0].innerText = quantity;
+                    }
+                });
+
+            },
+            error: function (e) {
+
+            }
+        });
+    }
+
+</script>

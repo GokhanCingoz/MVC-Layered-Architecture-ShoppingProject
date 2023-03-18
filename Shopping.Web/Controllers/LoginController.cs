@@ -26,9 +26,14 @@ namespace Shopping.Web.Controllers
         [ActionName("LoginControl")]
         public IActionResult LoginControl(UserModel userModel)
         {
-            var result = _loginManagement.LoginControl(userModel.Username, userModel.Password);
+            var user = _loginManagement.LoginControl(userModel.Username, userModel.Password);
 
-            return Json(result);
+            if (user != null)
+            {
+                HttpContext.Session.SetString("UserId", user.Id.ToString());
+            }
+
+            return Json(user != null);
         }
 
         public IActionResult SignUp()

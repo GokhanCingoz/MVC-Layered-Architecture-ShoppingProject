@@ -8,10 +8,12 @@ namespace Shopping.Web.Controllers
     public class HomeController : Controller
     {
         public readonly IProductManagement _productManagement;
+        public readonly  ICartManagement _cartManagement;
 
-        public HomeController(IProductManagement productManagement)
+        public HomeController(IProductManagement productManagement, ICartManagement cartManagement)
         {
             _productManagement = productManagement;
+            _cartManagement = cartManagement;
         }
 
         [HttpGet]
@@ -26,7 +28,11 @@ namespace Shopping.Web.Controllers
                 var product = new ProductModel
                 {
                     Brand = item.Brand,
-                    Category = item.Category,
+                    Category = new CategoryModel
+                    {
+                        Id = item.Category.Id,
+                        Name = item.Category.Name,
+                    },
                     Description = item.Description,
                     CategoryId = item.CategoryId,
                     Id = item.Id,
@@ -39,9 +45,22 @@ namespace Shopping.Web.Controllers
                 model.Add(product);
             }
 
-            ViewBag.Title = "Home Page";
+            ViewData["Title"] = "Home Page";
+
+            var cartQuantity = GetCartQuantity();
+
+            ViewData["CartQuantity"] = cartQuantity;
 
             return View(model);
+        }
+
+        public int GetCartQuantity()
+        {
+            var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
+
+            var cartQuantity = _cartManagement.GetCartQuantity(userId);
+
+            return cartQuantity;
         }
 
 
@@ -55,7 +74,11 @@ namespace Shopping.Web.Controllers
                 var productByCategoryId= new ProductModel
                 {
                     Brand = item.Brand,
-                    Category = item.Category,
+                    Category = new CategoryModel
+                    {
+                        Id = item.Category.Id,
+                        Name = item.Category.Name,
+                    },
                     Description = item.Description,
                     CategoryId = item.CategoryId,
                     Id = item.Id,
@@ -69,12 +92,37 @@ namespace Shopping.Web.Controllers
                 model.Add(productByCategoryId); 
             }
 
-            ViewBag.Title = model.FirstOrDefault() != null ? model.FirstOrDefault().Category.Name : "";
+            ViewData["Title"] = model.FirstOrDefault() != null ? model.FirstOrDefault().Category.Name : "";
 
             return View("Index", model);
         }
+            
+        public bool AddToCart(int productId)
+        {   
+            var result = true;
 
+            var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
+
+            if (userId == 0)
+            {
+                result= false;
+                return result;
+            }
+
+            var cart = new Cart
+            {
+                ProductId = productId,
+                UserId = userId,
+                Quantity = 1,
+
+            };
+
+            _cartManagement.AddCart(cart);
+                
+            return result;
+        }
         
+
 
     }
 }

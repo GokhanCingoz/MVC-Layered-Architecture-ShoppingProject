@@ -7,11 +7,15 @@ using System.Threading.Tasks;
 
 namespace EntityLayer.Domain
 {
-    internal class Favorite
+    public class Favorite
     {
         [Key]
         public int Id { get; set; }
+
         public int ProductId { get; set; }
         public virtual Product Product { get; set; }
+
+        public int UserId { get; set; }
+        public virtual User User { get; set; }
     }
 }

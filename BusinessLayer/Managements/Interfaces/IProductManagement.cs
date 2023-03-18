@@ -9,7 +9,7 @@ namespace BusinessLayer.Managements.Interfaces
 {
     public interface IProductManagement
     {
-        public List<Product> GetAllProduct();
-        public List<Product> GetProductsByCategoryId(int categoryId);
+        List<Product> GetAllProduct();
+        List<Product> GetProductsByCategoryId(int categoryId);
     }
 }
