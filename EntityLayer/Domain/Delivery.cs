@@ -13,7 +13,6 @@ namespace EntityLayer.Domain
         public int Id { get; set; }
         public double TotalPrice { get; set; } // Bir gönderideki toplam tutarı gösterir. Ama ürün bazında değil.
         public int TotalQuantity { get; set; } // Bir gönderideki toplam ürün sayısını gösterir. Ama ürün bazında değil.
-       
         public int UserId { get; set; }
         public virtual User User { get; set; }
 

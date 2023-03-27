@@ -22,7 +22,6 @@ namespace Shopping.Web.Controllers
         [ActionName("Index")]
         public IActionResult Index()
         {
-
             var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
 
             var favoriteProductIds = _favoriteManagement.GetAllFavoritesByUserId(userId).Select(x => x.ProductId);
@@ -62,8 +61,6 @@ namespace Shopping.Web.Controllers
             var favoritesQuantity = GetAllFavoritesQuantity();
 
             ViewData["FavoriteQuantity"] = favoritesQuantity;
-
-            
 
             return View(model);
         }
@@ -180,6 +177,5 @@ namespace Shopping.Web.Controllers
 
             return favoriteQuantity;
         }
-
     }
 }
