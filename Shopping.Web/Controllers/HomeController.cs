@@ -148,7 +148,8 @@ namespace Shopping.Web.Controllers
         }
 
         public IActionResult AddToFavorite(int productId)
-        {
+        {   
+
             var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
             
             var favorite = new Favorite
@@ -176,6 +177,60 @@ namespace Shopping.Web.Controllers
             var favoriteQuantity = _favoriteManagement.GetAllFavoritesQuantity(userId);
 
             return favoriteQuantity;
+        }
+
+        public ActionResult Search(string searchName)
+        {
+            var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
+            var favoriteProductIds = _favoriteManagement.GetAllFavoritesByUserId(userId).Select(x => x.ProductId);
+            var products = _productManagement.GetAllProduct();
+            var model = new List<ProductModel>();
+            var result = new List<Product>();
+            // Filter down if necessary
+            if (!String.IsNullOrEmpty(searchName))
+            { 
+                result = products.Where(p => p.Title.ToLower().Contains(searchName.ToLower()) || p.Description.ToLower().Contains(searchName.ToLower()) || p.Category.Name.ToLower().Contains(searchName.ToLower())).ToList();
+            }
+            else
+            {
+                result = products;
+            }
+
+            foreach (var item in result)
+            {
+                var productBySearch = new ProductModel
+                {
+                    Brand = item.Brand,
+                    Category = new CategoryModel
+                    {
+                        Id = item.Category.Id,
+                        Name = item.Category.Name,
+                    },
+                    Description = item.Description,
+                    CategoryId = item.CategoryId,
+                    Id = item.Id,
+                    ImgLink = item.ImgLink,
+                    Price = item.Price,
+                    Rating = item.Rating,
+                    Stock = item.Stock,
+                    Title = item.Title,
+                    IsFavorite = favoriteProductIds.Any(x => x == item.Id)
+
+                };
+
+                model.Add(productBySearch);
+            }
+
+
+            var cartQuantity = GetAllCartsQuantity();
+
+            ViewData["TotalCartsQuantity"] = cartQuantity;
+
+            var favoritesQuantity = GetAllFavoritesQuantity();
+
+            ViewData["FavoriteQuantity"] = favoritesQuantity;
+
+            return View("Index", model);
         }
     }
 }

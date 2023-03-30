@@ -244,10 +244,10 @@
                 <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div class="ms-md-auto pe-md-3 d-flex align-items-center">
 
-                        @*<div class="input-group input-group-outline">
-                        <label class="form-label">Type here...</label>
-                        <input type="text" class="form-control">
-                        </div>*@
+                        <div class="input-group input-group-outline">
+                        <label class="form-label"  >Search ...</label>
+                            <input type="text" class="form-control" id="search" />
+                        </div>
 
                     </div>
                     <ul class="navbar-nav  justify-content-end">
@@ -622,6 +622,16 @@
             $("#" + id + " .toast-body")[0].innerText = body;
             $("." + btnClass).click()
         }
+
+        $(function () {
+            $("#search").keypress(function (e) {
+                // if the key pressed is the enter key
+                if (e.which == 13) {
+                    var data = $("#search").val();
+                    window.location.href = "/Home/Search?searchName=" + data;
+                }
+            })
+        });
     </script>
 
     <!-- Github buttons -->
