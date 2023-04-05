@@ -16,28 +16,38 @@
 @model List<ProductModel>
 <div class="row">
 
-    @if (Model.Count() <= 0)
+    @if (Convert.ToBoolean(ViewData["IsAdmin"]))
     {
         <div class="alert text-center w-75 mx-auto mt-6" style="background-color:rgb(234,232,232)">
-            <span>There is no product </span>
+            <span>Adminsin </span>
         </div>
     }
 
     else
     {
-        <div class="badge text-end mt-3" style="width:98%">
-            <button class="btn bg-gradient-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                Sort by
-            </button>
-            <ul class="dropdown-menu h11" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="#" onclick="SortBy('PriceAsc')" id="PriceAsc">Price - Low to High</a></li>
-                <li><a class="dropdown-item" href="#" onclick="SortBy('PriceDesc')" id="PriceDesc">Price - High to Low</a></li>
-                <li><a class="dropdown-item" href="#" onclick="SortBy('NameAsc')" id="NameAsc">Name - A to Z</a></li>
-                <li><a class="dropdown-item" href="#" onclick="SortBy('NameDesc')" id="NameDesc">Name - Z to A</a></li>
-            </ul>
-        </div>
+        @if (Model.Count() <= 0)
+        {
+            <div class="alert text-center w-75 mx-auto mt-6" style="background-color:rgb(234,232,232)">
+                <span>There is no product </span>
+            </div>
+        }
 
-        <div id="cartField" class="row">@await Html.PartialAsync("PartialView", Model) </div>
+        else
+        {
+            <div class="badge text-end mt-3" style="width:98%">
+                <button class="btn bg-gradient-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    Sort by
+                </button>
+                <ul class="dropdown-menu h11" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="#" onclick="SortBy('PriceAsc')" id="PriceAsc">Price - Low to High</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="SortBy('PriceDesc')" id="PriceDesc">Price - High to Low</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="SortBy('NameAsc')" id="NameAsc">Name - A to Z</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="SortBy('NameDesc')" id="NameDesc">Name - Z to A</a></li>
+                </ul>
+            </div>
+
+            <div id="cartField" class="row">@await Html.PartialAsync("PartialView", Model) </div>
+        }
     }
 
 </div>
