@@ -13,9 +13,9 @@ namespace DataAccessLayer.Repositories.Interfaces
         Task<IEnumerable<User>> GetAllUsersAsync();
         IEnumerable<User> GetAllUsers();
         void Add(User user);
-        //Task<User?> GetAsync(Guid id);
-        //Task<User?> AddAsync(Tag tag);
-        //Task<User?> UpdateAsync(Tag tag);
+        Task<User?> GetAsync(int id);
+        Task<User?> AddAsync(User user);
+        Task<User?> UpdateAsync(User user);
         //Task<User?> DeleteAsync(Guid id);
     }
 }

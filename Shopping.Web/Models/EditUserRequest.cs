@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Shopping.Web.Models
+﻿namespace Shopping.Web.Models
 {
-    public class UserModel
+    public class EditUserRequest
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -10,6 +8,5 @@ namespace Shopping.Web.Models
         public string Password { get; set; }
         public string Username { get; set; }
         public bool IsAdmin { get; set; }
-
     }
 }
