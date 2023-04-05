@@ -44,5 +44,11 @@ namespace BusinessLayer.Managements
 
             return user.Any(x => x.Username == username );
         }
+
+       public bool UserAdminControl(int userId)
+        {
+
+            return _userRepository.IsAdmin(userId);
+        }
     }
 }

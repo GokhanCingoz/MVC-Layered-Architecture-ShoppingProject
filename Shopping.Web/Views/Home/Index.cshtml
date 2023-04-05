@@ -7,7 +7,11 @@
             background-color: #7b809a;
             border-color: #7b809a;
             box-shadow: 0 2px 2px 0 rgb(229,51,113), 0 2px 1px -2px rgb(229,51,113), 0 1px 5px 0 rgb(229,51,113);
+        }
 
+    .badge {
+        text-transform: none;
+    }
 </style>
 @model List<ProductModel>
 <div class="row">
@@ -21,54 +25,19 @@
 
     else
     {
-        <div class="dropdown text-end mt-3" style="width:99%">
+        <div class="badge text-end mt-3" style="width:98%">
             <button class="btn bg-gradient-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-               Sort by
+                Sort by
             </button>
-            <ul class="dropdown-menu h9" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="#">Price - Low to High</a></li>
-                <li><a class="dropdown-item" href="#">Price - High to Low</a></li>
-                <li><a class="dropdown-item" href="#">Name - A to Z</a></li>
-                <li><a class="dropdown-item" href="#">Name - Z to A</a></li>
+            <ul class="dropdown-menu h11" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item" href="#" onclick="SortBy('PriceAsc')" id="PriceAsc">Price - Low to High</a></li>
+                <li><a class="dropdown-item" href="#" onclick="SortBy('PriceDesc')" id="PriceDesc">Price - High to Low</a></li>
+                <li><a class="dropdown-item" href="#" onclick="SortBy('NameAsc')" id="NameAsc">Name - A to Z</a></li>
+                <li><a class="dropdown-item" href="#" onclick="SortBy('NameDesc')" id="NameDesc">Name - Z to A</a></li>
             </ul>
         </div>
 
-        @foreach (var item in Model)
-        {
-            <div class="col-sm-6 col-lg-4 col-md-4 mt-2 mb-4">
-
-                <div class="card z-index-2 mt-4 mx-auto" style="height:95%; width:100%">
-
-                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-
-                        <div class="z-index-3 position-absolute text-end mx-4 mt-3 bg-transparent " style="width:90%;height:50%">
-                            <button id="@("fvrBtn_"+item.Id)" className="btn btn-danger favori-btn" style="border-radius: 5px; border-width: 0px; color:rgb(255 255 255);border-color: rgb(123,128,154); @(item.IsFavorite ? "background-color: rgb(240 129 31)" : "background-color: rgb(229,51,113)"); width: 45px;height: 38px;" onclick="addOrRemoveFavorite(@item.Id)">
-                                <i class="fa-solid @(item.IsFavorite ? "fa-heart-circle-minus" : "fa-heart-circle-plus")"></i>
-                            </button>
-                        </div>
-                        <div class="shadow-primary z-index-2">
-                            @* <div class="chart">
-                    <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
-                    </div>*@
-                            <img class="rounded-3 " style="width: 100%;height:300px " src=@item.ImgLink />
-                        </div>
-
-                    </div>
-                    <div class="card-body text-center">
-                        <h6 class="mb-0 ">@item.Title</h6>
-                        <p class="text-sm "> <b>Category: </b>@item.Category.Name </p>
-                        <p class="text-sm truncate" style="height:45px;">@item.Description</p>
-                        <h4 class="mb-0 "> @string.Format("{0:N1} €", item.Price) </h4>
-                        <hr class="dark horizontal">
-                        <div class=" text-center mx-auto">
-                            <div class="text-center">
-                                <a class="btn bg-gradient-primary w-50 " onclick="addToCart(@item.Id)">Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
+        <div id="cartField" class="row">@await Html.PartialAsync("PartialView", Model) </div>
     }
 
 </div>
@@ -178,6 +147,12 @@
 
             }
         });
+    }
+
+    function SortBy(sortBy) {
+        $("#cartField").load('@Url.Action("GetProductsSorted","Home")' + '?sortBy=' + sortBy)
+
+        $("#dropdownMenuButton")[0].innerText = $("#" + sortBy)[0].innerText
     }
 </script>
 
