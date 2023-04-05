@@ -24,6 +24,7 @@ namespace DataAccessLayer.Repositories
             return _contextDb.Users.ToList();
         }
 
+
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             return await _contextDb.Users.ToListAsync();
@@ -66,5 +67,9 @@ namespace DataAccessLayer.Repositories
             return null;
         }
 
+        public bool IsAdmin(int userId)
+        {
+            return _contextDb.Users.FirstOrDefault(x => x.Id == userId).IsAdmin;
+        }
     }
 }

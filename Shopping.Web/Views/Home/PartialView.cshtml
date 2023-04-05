@@ -1,0 +1,36 @@
+﻿@foreach (var item in Model)
+{
+    <div class="col-sm-6 col-lg-4 col-md-4 mt-2 mb-4">
+
+        <div class="card z-index-2 mt-4 mx-auto" style="height:95%; width:100%">
+
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+
+                <div class="z-index-3 position-absolute text-end mx-4 mt-3 bg-transparent " style="width:90%;height:50%">
+                    <button id="@("fvrBtn_"+item.Id)" className="btn btn-danger favori-btn" style="border-radius: 5px; border-width: 0px; color:rgb(255 255 255);border-color: rgb(123,128,154); @(item.IsFavorite ? "background-color: rgb(240 129 31)" : "background-color: rgb(229,51,113)"); width: 45px;height: 38px;" onclick="addOrRemoveFavorite(@item.Id)">
+                        <i class="fa-solid @(item.IsFavorite ? "fa-heart-circle-minus" : "fa-heart-circle-plus")"></i>
+                    </button>
+                </div>
+                <div class="shadow-primary z-index-2">
+                    @* <div class="chart">
+                <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
+                </div>*@
+                    <img class="rounded-3 " style="width: 100%;height:300px " src=@item.ImgLink />
+                </div>
+
+            </div>
+            <div class="card-body text-center">
+                <h6 class="mb-0 ">@item.Title</h6>
+                <p class="text-sm "> <b>Category: </b>@item.Category.Name </p>
+                <p class="text-sm truncate" style="height:45px;">@item.Description</p>
+                <h4 class="mb-0 "> @string.Format("{0:N1} €", item.Price) </h4>
+                <hr class="dark horizontal">
+                <div class=" text-center mx-auto">
+                    <div class="text-center">
+                        <a class="btn bg-gradient-primary w-50 " onclick="addToCart(@item.Id)">Add to cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
