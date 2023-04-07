@@ -35,6 +35,11 @@
 
 </head>
 
+@{
+    var categoryListStr = HttpContextAccessor.HttpContext.Session.GetString("CategoryList");
+    var categoryList = string.IsNullOrEmpty(categoryListStr) ? new List<CategoryModel>() : JsonSerializer.Deserialize<List<CategoryModel>>(categoryListStr);
+}
+
 
 <body class="g-sidenav-show  bg-gray-100">
 
@@ -82,6 +87,7 @@
                     <li class="nav-item mt-3">
                         <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">CATEGORY</h6>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link text-white " asp-controller="AdminUser" asp-action="Add">
 
@@ -228,61 +234,20 @@
                     <li class="nav-item mt-3">
                         <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">CATEGORIES</h6>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=1">
 
-                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="fa fa-mobile" aria-hidden="true"></i>
-                            </div>
+                    @foreach (var item in categoryList)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=@item.Id">
 
-                            <span class="nav-link-text ms-1">Smart Phones</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=2">
+                                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                    <i class="@item.Icon" aria-hidden="true"></i>
+                                </div>
 
-                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="fa fa-laptop" aria-hidden="true"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Laptops</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=3">
-
-                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="fa fa-tint" aria-hidden="true"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Fragrances</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=4">
-
-                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="fa-solid fa-hands-bubbles"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Skin Care</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=6">
-
-                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="fa-sharp fa-solid fa-house"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Home Decoration</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=5">
-
-                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="fa-solid fa-bowl-food"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Groceries</span>
-                        </a>
-                    </li>
+                                <span class="nav-link-text ms-1">@item.Name</span>
+                            </a>
+                        </li>
+                    };
 
                     <li class="nav-item">
                         <a class="nav-link text-white " href="/Login/Index">

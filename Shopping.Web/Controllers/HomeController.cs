@@ -1,7 +1,11 @@
 ﻿using BusinessLayer.Managements.Interfaces;
 using EntityLayer.Domain;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json.Linq;
 using Shopping.Web.Models;
+using System.Text.Json;
 using static Shopping.Web.Controllers.HomeController;
 
 namespace Shopping.Web.Controllers
@@ -12,14 +16,15 @@ namespace Shopping.Web.Controllers
         public readonly ICartManagement _cartManagement;
         public readonly IFavoriteManagement _favoriteManagement;
         public readonly ILoginManagement _loginManagement;
+        public readonly ICategoryManagement _categoryManagement;
 
-        public HomeController(IProductManagement productManagement, ICartManagement cartManagement, IFavoriteManagement favoriteManagement,ILoginManagement loginManagement)
+        public HomeController(IProductManagement productManagement, ICartManagement cartManagement, IFavoriteManagement favoriteManagement, ILoginManagement loginManagement,ICategoryManagement categoryManagement)
         {
             _productManagement = productManagement;
             _cartManagement = cartManagement;
             _favoriteManagement = favoriteManagement;
             _loginManagement = loginManagement;
-            
+            _categoryManagement = categoryManagement;
         }
 
         [HttpGet]
@@ -28,6 +33,25 @@ namespace Shopping.Web.Controllers
         {
 
             var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
+
+            HttpContext.Session.SetString("CategoryId", 0.ToString()); // categoryId'yi index sayfasında 0'a setledik. Bu bilgiyi ister view'da, ister başka controllerda, istersek de controllerların'ın herhangibir metodunda kullanabiliriz.
+
+            var categories=_categoryManagement.GetAllCategories();
+
+            List<CategoryModel> categoriesModel = new List<CategoryModel>();
+
+            foreach (var category in categories)
+            {
+                var categoryModel = new CategoryModel
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                    Icon = category.Icon,
+                };
+                categoriesModel.Add(categoryModel);
+            }
+           
+            HttpContext.Session.SetString("CategoryList", JsonSerializer.Serialize(categoriesModel));
 
             var favoriteProductIds = _favoriteManagement.GetAllFavoritesByUserId(userId).Select(x => x.ProductId).ToList();
 
@@ -66,6 +90,7 @@ namespace Shopping.Web.Controllers
         {
             var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
 
+            HttpContext.Session.SetString("CategoryId", categoryId.ToString()); // ilgili kategoriye ait Id'yi sessionda setledik yani tuttuk. Bu bilgiyi ister view'da, ister başka controllerda, istersek de controllerların'ın herhangibir metodunda kullanabiliriz. 
 
             var favoriteProductIds = _favoriteManagement.GetAllFavoritesByUserId(userId).Select(x => x.ProductId).ToList();
 
@@ -209,7 +234,16 @@ namespace Shopping.Web.Controllers
         public IActionResult GetProductsSorted(SortBy sortBy)
         {
             var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
+
+            var categoryId = string.IsNullOrEmpty(HttpContext.Session.GetString("CategoryId")) ? 0 : int.Parse(HttpContext.Session.GetString("CategoryId")); // category Id'yi önceden setlemiştik. şimdi okuyoruz.
+
             IEnumerable<Product> products = _productManagement.GetAllProduct();
+
+            if (categoryId!=0 )
+            {
+                products = products.Where(x => x.CategoryId == categoryId);
+            }
+
             var favoriteProductIds = _favoriteManagement.GetAllFavoritesByUserId(userId).Select(x => x.ProductId).ToList();
 
             switch (sortBy)
@@ -235,9 +269,15 @@ namespace Shopping.Web.Controllers
             return PartialView("PartialView", model);
         }
 
+      /// <summary>
+      /// Database'den gelen product listesindeki productları View'a göndermek amacıyla Product Model'e çeviren metot.
+      /// </summary>
+      /// <param name="products"></param>
+      /// <param name="favoriteProductIds"></param>
+      /// <returns></returns>
         private List<ProductModel> ProductModelList(List<Product> products, List<int> favoriteProductIds)
         {
-            var model = new List<ProductModel>();
+            var model = new List<ProductModel>(); 
 
 
             foreach (var item in products)
