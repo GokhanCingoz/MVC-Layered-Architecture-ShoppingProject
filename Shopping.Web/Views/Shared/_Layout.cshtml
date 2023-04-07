@@ -8,7 +8,11 @@
     <link rel="apple-touch-icon" sizes="76x76" href="~/material-dashboard-master/assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="~/material-dashboard-master/assets/img/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>@ViewData["Title"]</title>
+
+    @if (!Convert.ToBoolean(ViewData["IsAdmin"]))
+    {
+        <title>@ViewData["Title"]</title>
+    } 
 
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -20,6 +24,7 @@
 
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
@@ -49,22 +54,23 @@
             <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main" style="height:60%">
                 <ul class="navbar-nav">
 
-                    
+                    @*User Section*@
                     <li class="nav-item mt-3">
                         <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">USER</h6>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="#">
+                        <a class="nav-link text-white " asp-controller="AdminUser" asp-action="Add">
 
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="fa-solid fa-plus"></i>
                             </div>
-
-                            <span class="nav-link-text ms-1">Add</span>
+                            <span class="nav-link-text ms-1" >Add</span>
                         </a>
+
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=2">
+                        <a class="nav-link text-white " asp-controller="AdminUser" asp-action="List">
 
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="fa-solid fa-list"></i>
@@ -72,11 +78,12 @@
                             <span class="nav-link-text ms-1">List</span>
                         </a>
                     </li>
+                    @*Category Section*@
                     <li class="nav-item mt-3">
                         <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">CATEGORY</h6>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=1">
+                        <a class="nav-link text-white " asp-controller="AdminUser" asp-action="Add">
 
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="fa-solid fa-plus"></i>
@@ -86,7 +93,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=2">
+                        <a class="nav-link text-white " asp-controller="AdminUser" asp-action="List">
 
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="fa-solid fa-list"></i>
@@ -94,11 +101,13 @@
                             <span class="nav-link-text ms-1">List</span>
                         </a>
                     </li>
+
+                    @*Product Section*@
                     <li class="nav-item mt-3">
                         <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">PRODUCT</h6>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=1">
+                        <a class="nav-link text-white " asp-controller="AdminUser" asp-action="Add">
 
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="fa-solid fa-plus"></i>
@@ -108,7 +117,16 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=2">
+                        <a class="nav-link text-white " asp-controller="AdminUser" asp-action="List">
+
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="fa-solid fa-list"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">List</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white " asp-controller="AdminUser" asp-action="List">
 
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="fa-solid fa-list"></i>
@@ -152,7 +170,7 @@
 
                         </div>
                         <ul class="navbar-nav  justify-content-end">
-                         
+
                             <li class="nav-item d-flex align-items-center">
                                 <a href="/Login/Index" class="nav-link text-body font-weight-bold px-0">
                                     <i class="fa fa-user me-sm-1"></i>
@@ -181,117 +199,116 @@
     {
         <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark" id="sidenav-main">
 
-        
-        <div class="sidenav-header">
-            <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-            <a class="navbar-brand m-0 text-center" style="font-size:large" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
-               
-                <span class="ms-1 font-weight-bold text-white">GÖKYOL </span>
-            </a>
-        </div>
-        <hr class="horizontal light mt-0 mb-2">
-        <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main" style="height:60%">
-            <ul class="navbar-nav">
 
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/Home/Index">
+            <div class="sidenav-header">
+                <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+                <a class="navbar-brand m-0 text-center" style="font-size:large" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
 
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10">dashboard</i>
-                        </div>
+                    <span class="ms-1 font-weight-bold text-white">GÖKYOL </span>
+                </a>
+            </div>
+            <hr class="horizontal light mt-0 mb-2">
+            <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main" style="height:60%">
+                <ul class="navbar-nav">
 
-                        <span class="nav-link-text ms-1">PRODUCTS</span>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Home/Index">
 
-                
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">dashboard</i>
+                            </div>
+
+                            <span class="nav-link-text ms-1">PRODUCTS</span>
+                        </a>
+                    </li>
 
 
-                <li class="nav-item mt-3">
-                    <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">CATEGORIES</h6>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=1">
-
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="fa fa-mobile" aria-hidden="true"></i>
-                        </div>
-
-                        <span class="nav-link-text ms-1">Smart Phones</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=2">
-
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="fa fa-laptop" aria-hidden="true"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Laptops</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=3">
-
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="fa fa-tint" aria-hidden="true"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Fragrances</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=4">
-
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="fa-solid fa-hands-bubbles"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Skin Care</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=6">
-
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="fa-sharp fa-solid fa-house"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Home Decoration</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=5">
-
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="fa-solid fa-bowl-food"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Groceries</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link text-white " href="/Login/Index">
-
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10">login</i>
-                        </div>
-
-                        <span class="nav-link-text ms-1">Sign Out</span>
-                    </a>
-                </li>
 
 
-            </ul>
-        </div>
+                    <li class="nav-item mt-3">
+                        <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">CATEGORIES</h6>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=1">
 
-        <div class="sidenav-footer position-absolute w-100 bottom-0 ">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="fa fa-mobile" aria-hidden="true"></i>
+                            </div>
 
-        </div>
+                            <span class="nav-link-text ms-1">Smart Phones</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=2">
 
-    </aside>
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="fa fa-laptop" aria-hidden="true"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Laptops</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=3">
+
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="fa fa-tint" aria-hidden="true"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Fragrances</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=4">
+
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="fa-solid fa-hands-bubbles"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Skin Care</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=6">
+
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="fa-sharp fa-solid fa-house"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Home Decoration</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=5">
+
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="fa-solid fa-bowl-food"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Groceries</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white " href="/Login/Index">
+
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">login</i>
+                            </div>
+
+                            <span class="nav-link-text ms-1">Sign Out</span>
+                        </a>
+                    </li>
+
+
+                </ul>
+            </div>
+
+            <div class="sidenav-footer position-absolute w-100 bottom-0 ">
+            </div>
+
+        </aside>
         <main class="main-content border-radius-lg ">
             <!-- Navbar -->
 
             <nav class="navbar navbar-main  navbar-expand-lg my-auto px-0 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
                 <div class="container-fluid py-1 px-3">
-                    
+
                     <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                         <div class="ms-md-auto pe-md-3 d-flex align-items-center">
 
@@ -331,7 +348,7 @@
 
                                 </a>
                             </li>
-                            
+
                         </ul>
                     </div>
                 </div>
@@ -347,9 +364,9 @@
 
         </main>
     }
-    
-    
-    
+
+
+
     <div class="col-lg-3 col-sm-6 col-12">
         <button class="btn bg-gradient-success w-100 mb-0 toast-btn" type="button" data-target="successToast" style="display: none;">Success</button>
     </div>

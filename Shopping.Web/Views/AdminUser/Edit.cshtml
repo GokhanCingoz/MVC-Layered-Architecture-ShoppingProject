@@ -1,5 +1,125 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Shopping.Web.Models.EditUserRequest
 @{
 }
+
+<div class="bg-secondary bg-opacity-10 py-2">
+    <div class="container">
+        <h1>Edit Users</h1>
+    </div>
+</div>
+<form >
+    <div class="container text-center">
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-4 justify-content-end">
+                    <span class="badge bg-gradient-info">User Id</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-3">
+                    <input type="text" class="form-control" id="id" readonly asp-for="Id" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-4 justify-content-end">
+                    <span class="badge bg-gradient-info">Name</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-3">
+                    <input type="text" class="form-control" id="name" asp-for="Name">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-4 justify-content-end">
+                    <span class="badge bg-gradient-info">Surname</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-3">
+                    <input type="text" class="form-control" id="surname" asp-for="Surname">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-4 justify-content-end">
+                    <span class="badge bg-gradient-info">Password</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-3">
+                    <input type="text" class="form-control" id="password" asp-for="Password">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-4 justify-content-end">
+                    <span class="badge bg-gradient-info">Username</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-3">
+                    <input type="text" class="form-control" id="userName" asp-for="Username">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-4 justify-content-end">
+                    <span class="badge bg-gradient-info">Status</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-3">
+                    <input type="text" class="form-control" id="isAdmin" asp-for="IsAdmin">
+                </div>
+            </div>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-danger" id="update">Update</button>
+        </div>
+    </div>
+</form>
+<script>
+    $(function () {
+        $("#update").click(function () {
+            
+            var data = 
+            { 
+                Id: $("#id").val(), 
+                Name: $("#name").val(), 
+                Surname: $("#surname").val(), 
+                Password: $("#password").val(), 
+                Username: $("#userName").val(), 
+                IsAdmin: $("#isAdmin").val() 
+            };
+
+            $.ajax({
+                url: '@Url.Action("EditUser","AdminUser")',
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                success: function (result) {
+                    if(result){
+                        window.location.href = "/AdminUser/List/";
+                    }else{
+                        window.location.href = "/AdminUser/Edit?id=" + data.Id;
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Hata durumunda ne yapılacağını belirleyin
+                    console.log("Hata: " + error);
+
+                }
+            });
+        });
+    });
+
+</script>

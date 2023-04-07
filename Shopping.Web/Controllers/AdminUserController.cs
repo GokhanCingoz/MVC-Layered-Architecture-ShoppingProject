@@ -2,24 +2,29 @@
 using Shopping.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using DataAccessLayer.Repositories.Interfaces;
-
+using Azure;
+using BusinessLayer.Managements.Interfaces;
 
 namespace Shopping.Web.Controllers
 {
     public class AdminUserController : Controller
-        
+
     {
+
         //DI
+        public readonly ILoginManagement _loginManagement;
         private readonly IUserRepository userRepository;
-        public AdminUserController(IUserRepository userRepository)
+        public AdminUserController(IUserRepository userRepository, ILoginManagement loginManagement)
         {
             this.userRepository = userRepository;
+            _loginManagement = loginManagement;
         }
-       
+
         //User Add - Get Method
         [HttpGet]
         public IActionResult Add()
         {
+            ViewData["IsAdmin"] = IsAdmin();
             return View();
         }
 
@@ -28,6 +33,7 @@ namespace Shopping.Web.Controllers
         [ActionName("Add")]
         public async Task<IActionResult> Add(UserModel userModel)
         {
+            ViewData["IsAdmin"] = IsAdmin();
             var user = new User
             {
                 Name = userModel.Name,
@@ -45,19 +51,22 @@ namespace Shopping.Web.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            var user =userRepository.GetAllUsers();
+            var user = userRepository.GetAllUsers();
+            ViewData["IsAdmin"] = IsAdmin();
             return View(user);
         }
         //User Edit - Get Action
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int userId)
         {
-            var user = await userRepository.GetAsync(id);
+            ViewData["IsAdmin"] = IsAdmin();
+            var user = await userRepository.GetAsync(userId);
 
             if (user != null)
             {
                 var editUserReq = new EditUserRequest
                 {
+                    Id = user.Id,
                     Name = user.Name,
                     Surname = user.Surname,
                     Password = user.Password,
@@ -73,28 +82,31 @@ namespace Shopping.Web.Controllers
 
         //User Edit - Get Action
         [HttpPost]
-        public async Task<IActionResult> Edit(EditUserRequest editUserRequest)
+        public IActionResult EditUser(EditUserRequest editUserRequest)
         {
+            ViewData["IsAdmin"] = IsAdmin();
             var user = new User
             {
+                Id = editUserRequest.Id,
                 Name = editUserRequest.Name,
                 Surname = editUserRequest.Surname,
                 Password = editUserRequest.Password,
                 Username = editUserRequest.Username,
                 IsAdmin = editUserRequest.IsAdmin
             };
-            
 
-            var updatedUser = await userRepository.UpdateAsync(user);
-            if (updatedUser != null)
-            {
-               
-                return RedirectToAction("List");
-            }
-           
-            return RedirectToAction("Edit", new { id = editUserRequest.Id });
+            var updatedUser = userRepository.UpdateAsync(user);
 
+            return Json(updatedUser != null); 
         }
 
+        public bool IsAdmin()
+        {
+
+            var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
+            var IsAdmin = _loginManagement.UserAdminControl(userId);
+            return IsAdmin;
+
+        }
     }
 }

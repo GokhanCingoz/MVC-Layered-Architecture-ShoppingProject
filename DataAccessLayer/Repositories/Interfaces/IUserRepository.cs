@@ -15,7 +15,7 @@ namespace DataAccessLayer.Repositories.Interfaces
         void Add(User user);
         Task<User?> GetAsync(int id);
         Task<User?> AddAsync(User user);
-        Task<User?> UpdateAsync(User user);
+        User UpdateAsync(User user);
         public bool IsAdmin(int userId);
         
     }
