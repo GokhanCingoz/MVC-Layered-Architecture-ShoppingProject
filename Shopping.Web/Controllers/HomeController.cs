@@ -1,7 +1,11 @@
 ﻿using BusinessLayer.Managements.Interfaces;
 using EntityLayer.Domain;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json.Linq;
 using Shopping.Web.Models;
+using System.Text.Json;
 using static Shopping.Web.Controllers.HomeController;
 
 namespace Shopping.Web.Controllers
@@ -12,14 +16,15 @@ namespace Shopping.Web.Controllers
         public readonly ICartManagement _cartManagement;
         public readonly IFavoriteManagement _favoriteManagement;
         public readonly ILoginManagement _loginManagement;
+        public readonly ICategoryManagement _categoryManagement;
 
-        public HomeController(IProductManagement productManagement, ICartManagement cartManagement, IFavoriteManagement favoriteManagement, ILoginManagement loginManagement)
+        public HomeController(IProductManagement productManagement, ICartManagement cartManagement, IFavoriteManagement favoriteManagement, ILoginManagement loginManagement,ICategoryManagement categoryManagement)
         {
             _productManagement = productManagement;
             _cartManagement = cartManagement;
             _favoriteManagement = favoriteManagement;
             _loginManagement = loginManagement;
-
+            _categoryManagement = categoryManagement;
         }
 
         [HttpGet]
@@ -30,6 +35,23 @@ namespace Shopping.Web.Controllers
             var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
 
             HttpContext.Session.SetString("CategoryId", 0.ToString()); // categoryId'yi index sayfasında 0'a setledik. Bu bilgiyi ister view'da, ister başka controllerda, istersek de controllerların'ın herhangibir metodunda kullanabiliriz.
+
+            var categories=_categoryManagement.GetAllCategories();
+
+            List<CategoryModel> categoriesModel = new List<CategoryModel>();
+
+            foreach (var category in categories)
+            {
+                var categoryModel = new CategoryModel
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                    Icon = category.Icon,
+                };
+                categoriesModel.Add(categoryModel);
+            }
+           
+            HttpContext.Session.SetString("CategoryList", JsonSerializer.Serialize(categoriesModel));
 
             var favoriteProductIds = _favoriteManagement.GetAllFavoritesByUserId(userId).Select(x => x.ProductId).ToList();
 

@@ -22,7 +22,10 @@ builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<ICartManagement, CartManagement>();
 builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
 builder.Services.AddScoped<IFavoriteManagement, FavoriteManagement>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryManagement, CategoryManagement>();
 
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();// category sessionu view'a göndermek için
 
 var app = builder.Build();
 
