@@ -50,5 +50,10 @@ namespace DataAccessLayer.Repositories
             return _contextDb.Carts.FirstOrDefault(x=>x.ProductId==productId&& x.UserId==userId);
         }
 
+        public void RemoveAllCartsByUserId(int userId)
+        {
+           var cartsByUserId= GetAllCarts(userId);
+            _contextDb.Carts.RemoveRange(cartsByUserId);
+        }
     }
 }

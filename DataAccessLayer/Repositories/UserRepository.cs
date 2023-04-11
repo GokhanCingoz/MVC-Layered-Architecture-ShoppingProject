@@ -71,5 +71,10 @@ namespace DataAccessLayer.Repositories
         {
             return _contextDb.Users.FirstOrDefault(x => x.Id == userId).IsAdmin;
         }
+
+        public User GetUserById(int id)
+        {
+           return _contextDb.Users.FirstOrDefault(y => y.Id == id);
+        }
     }
 }

@@ -15,6 +15,6 @@ namespace EntityLayer.Domain
         public string ImgLink { get; set; }
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
-        public ICollection<DeliveryDetail> DeliveryDetails { get; }
+        public ICollection<DeliveryItem> DeliveryDetails { get; }
     }
 }

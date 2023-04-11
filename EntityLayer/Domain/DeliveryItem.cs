@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EntityLayer.Domain
 {
-    public class DeliveryDetail
+    public class DeliveryItem
     {
         public int Id { get; set; }
         public double TotalPrice { get; set; } // Bir gönderideki toplam ödenen tutarı ürün bazında gösterir. Ürünlere tek tek ulaşarak hangi üründen kaç paralık alışveriş yapıldığını gösterir.

@@ -42,7 +42,7 @@
 
 </style>
 
-@model List<CartModel>
+@model PaymentModel
 <section class="h-100 " style="background-color: #d2c9ff;">
     <div class="container py-5 pt-1" style="background-color:rgb(248,249,250)">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -53,65 +53,49 @@
                             <div class="col-lg-8 shopping-cart">
                                 <div class="p-5">
                                     <div class="d-flex justify-content-between align-items-center mb-5">
-                                        <h1 class="fw-bold mb-0 text-black">Payment</h1>
+                                        <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
                                         <h6 class="mb-0 text-muted" id="sTotalItems">@ViewData["TotalCartsQuantity"] Items</h6>
                                     </div>
 
-                                    @if (Model.Count() <= 0)
-                                    {
-                                        <div class="alert " style="background-color:rgb(234,232,232)">
-                                            <span>There is no product on cart</span>
-                                        </div>
-                                    }
-
-                                    else
-                                    {
-                                        @foreach (var item in Model)
-                                        {
-                                            <hr class="my-4">
-
-                                            <div class="row mb-4 d-flex justify-content-between align-items-center">
-                                                <div class="col-md-2 col-lg-2 col-xl-2">
-                                                    <img src="@item.Product.ImgLink"
-                                                 class="img-fluid rounded-3" alt="">
-                                                </div>
-                                                <div class="col-md-3 col-lg-3 col-xl-3">
-                                                    <h6 class="text-muted">@item.Product.Category.Name</h6>
-                                                    <h6 class="text-black mb-0">@item.Product.Title</h6>
-                                                </div>
-                                                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                                    <button class="btn btn-link px-2 my-auto"
-                                                    onclick="decreaseCartQuantity(@item.ProductId)">
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-
-                                                    <input id="@("quantity_" + item.ProductId)" min="0" name="quantity" value="@item.Quantity" type="number"
-                                                   class="form-control form-control-sm text-center quantity-field my-auto ms-2 " readonly />
-
-                                                    <button class="btn btn-link px-2 my-auto"
-                                                    onclick="increaseCartQuantity(@item.ProductId)">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                                    <h6 class="mb-0">@string.Format("{0:N2} €", item.Product.Price)</h6>
-                                                </div>
-                                                <div class="col-md-1 col-lg-1 col-xl-1 text-end ">
-                                                    <a onclick="deleteCart(@item.Id)" class="text-muted cursor-pointer"><i class="fas fa-times"></i></a>
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="input-group input-group-outline my-3 focused is-focused">
+                                                    <label class="form-label">Name</label>
+                                                    <input type="text" id="name" class="form-control" value="@Model.Name">
                                                 </div>
                                             </div>
-                                        }
-                                        <hr class="my-4">
-                                    }
+                                            <div class="col-md-6">
+                                                <div class="input-group input-group-outline my-3 focused is-focused">
+                                                    <label class="form-label">Surname</label>
+                                                    <input type="text" id="surname" class="form-control" value="@Model.SurName">
+                                                </div>
+                                            </div>
+                                        </div>
 
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div id="emailDiv" class="input-group input-group-outline my-3 focused is-focused">
+                                                    <label class="form-label">Email</label>
+                                                    <input id="email" type="email" class="form-control" onkeydown="validation()">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="input-group input-group-outline my-3 focused is-focused">
+                                                    <label class="form-label">Phone Number</label>
+                                                    <input id="phone" type="tel" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-5">
+                                            <div class="col-md-12">
+                                                <div class="input-group input-group-dynamic focused is-focused ">
+                                                    <textarea id="adres"class="form-control" rows="3" placeholder="Address" spellcheck="false"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                    @*<div class="pt-5">
-                                    <h6 class="mb-0">
-                                    <a href="#!" class="text-body">
-                                    <i class="fas fa-long-arrow-alt-left me-2"></i>Back to shop
-                                    </a>
-                                    </h6>
-                                    </div>*@
+                                    </form>
                                 </div>
                             </div>
                             <div class="col-lg-4 bg-grey">
@@ -128,7 +112,7 @@
 
                                     <div class="mb-5">
                                         <div class="form-outline">
-                                           @* <input type="text" id="form3Examplea2" class="form-control form-control-lg" />*@
+                                            @* <input type="text" id="form3Examplea2" class="form-control form-control-lg" />*@
                                             <label class="form-label" for="form3Examplea2"></label>
                                         </div>
                                     </div>
@@ -156,6 +140,13 @@
 </section>
 
 <script>
+    $(function () {
+        document.getElementById('phone').addEventListener('input', function (e) {
+            var x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+            e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+        });
+
+    });
     function deleteCart(id) {
 
         $.ajax({
@@ -285,21 +276,46 @@
     }
 
     function pay() {
-        window.location.href = "/Cart/Payment/";
-    //    $.ajax({
-    //        url: '.Action("CreateCheckoutSession","Cart")',
-    //        type: 'POST',
-    //        dataType: 'json',
-    //        data: null,
-    //        success: function () {
+        if (formValidation()) {
+             window.location.href = "/Delivery/Index/";
 
-
-    //        },
-    //        error: function (e) {
-
-    //        }
-    //    });
-
+        }
+        else{
+            notificationAlert("danger", "ERROR!!!", "Please make sure all fields are filled properly!!!")
+        }
+        //var phoneInput = document.getElementById('phone');
+        //phoneInput.value = phoneInput.value.replace(/\D/g, '');
+        //console.log(phoneInput.value);  // only for debugging purposes
     }
 
+    function validation() {
+        let form = document.getElementById('emailDiv');
+        let email = document.getElementById('email').value
+        let text = document.getElementById('text')
+        let pattern = /^[^ ]+@@[^ ]+\.[a-z]{2,3}$/
+
+        if (email.match(pattern)) {
+            form.classList.add('is-valid')
+            form.classList.remove('is-invalid')
+            return true;
+        } else {
+            form.classList.remove('is-valid')
+            form.classList.add('is-invalid')
+            return false;
+        }
+
+        if (email == '') {
+            form.classList.remove('is-valid')
+            form.classList.remove('is-invalid')
+        }
+        return false;
+    }
+
+    function formValidation(){
+        if ($("#name").val() == "" || $("#name").val() == undefined || $("#surname").val() == "" || $("#surname").val() == undefined || $("#phone").val() == "" || $("#phone").val() == undefined || $("#email").val() == "" || $("#email").val() == undefined || validation()==false||$("#phone").val().length<14|| $("#adres").val() == "" || $("#adres").val() == undefined) {
+
+            return false;
+        }
+        return true;
+    }
 </script>

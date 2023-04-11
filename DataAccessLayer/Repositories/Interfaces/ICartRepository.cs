@@ -11,6 +11,7 @@ namespace DataAccessLayer.Repositories.Interfaces
     {
         List<Cart> GetAllCarts(int userId);
         void Add(Cart cart);
+        void RemoveAllCartsByUserId(int userId);
         void Delete (int id);
         void Update(Cart cart);
         Cart GetCart(int productId,int userId);
