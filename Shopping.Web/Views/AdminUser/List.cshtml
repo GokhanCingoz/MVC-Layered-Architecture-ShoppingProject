@@ -1,5 +1,105 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<EntityLayer.Domain.User>
 @{
+
 }
+@*<div class="bg-secondary bg-opacity-10 py-2">
+    <div class="container">
+        <h1>Add New User</h1>
+    </div>
+</div>
+
+<div class="container py-5">
+    <form method="post">
+        <div class="row">
+            <div class="mb-3 col-md-2">
+                <label class="form-label">UserName</label>
+                <input type="text" class="form-control" id="name" asp-for="Name" />
+            </div>
+
+            <div class="mb-3 col-md-2">
+                <label class="form-label">Display Name</label>
+                <input type="text" class="form-control" id="surname" asp-for="Surname" />
+            </div>
+            <div class="mb-3 col-md-2">
+                <label class="form-label">Password</label>
+                <input type="text" class="form-control" id="password" asp-for="Password" />
+            </div>
+            <div class="mb-3 col-md-2">
+                <label class="form-label">Email</label>
+                <input type="text" class="form-control" id="username" asp-for="Username" />
+            </div>
+            <div class="mb-3 col-md-2">
+                <label class="form-label">Status</label>
+                <input type="text" class="form-control" id="isadmin" asp-for="IsAdmin" />
+            </div>
+
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-dark">Submit</button>
+        </div>
+    </form>
+</div>*@
+@*creative tim tablo*@
+<div class="card ">
+    <div class="table-responsive">
+
+        <table class="table align-items-center mb-0">
+            <thead>
+                <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Surname</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Password</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ">Username</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                    <th class="text-secondary opacity-7"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="d-flex px-2 py-1">
+
+                                <div class="d-flex flex-column justify-content-center">
+                                    <h6 class="mb-0 text-xs">@user.Name</h6>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="text-xs text-secondary mb-0">@user.Surname</p>
+                        </td>
+                        <td>
+                            <p class="text-xs text-secondary mb-0">@user.Password</p>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="text-secondary text-xs font-weight-normal">@user.Username</span>
+                        </td>
+                        <td class="align-middle text-center text-sm">
+                            @*<span class="badge badge-sm badge-success">Online</span>*@
+                            <h7><span class="badge badge-sm bg-success">@user.IsAdmin</span></h7>
+                        </td>
+                        <td class="align-middle">
+                            <a @*onclick="edit(@user.Id)" *@ href="/AdminUser/Edit?userId=@user.Id" class="btn btn-default mb-0 "><i class="fas fa-pencil-alt"></i> Edit</a>
+                        </td>
+
+                        @*<td class="align-middle">
+                    <a href="javascript:;" class="text-secondary font-weight-normal text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                    Edit
+                    </a>
+                    </td>*@
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    //function edit(userId) {
+
+    //    window.location.href = "/AdminUser/Edit?userId="+userId;
+    //}
+       
+</script>

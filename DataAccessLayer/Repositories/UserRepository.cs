@@ -49,9 +49,9 @@ namespace DataAccessLayer.Repositories
             return user;
         }
 
-        public async Task<User?> UpdateAsync(User user)
+        public User UpdateAsync(User user)
         {
-            var existingUser = await _contextDb.Users.FindAsync(user.Id);
+            var existingUser = _contextDb.Users.Find(user.Id);
             if (existingUser != null)
             {
                 existingUser.Name = user.Name;
@@ -60,7 +60,7 @@ namespace DataAccessLayer.Repositories
                 existingUser.Username = user.Username;
                 existingUser.IsAdmin = user.IsAdmin;
 
-                await _contextDb.SaveChangesAsync();
+              _contextDb.SaveChanges();
                 return existingUser;
 
             }

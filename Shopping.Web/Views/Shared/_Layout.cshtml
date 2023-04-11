@@ -8,7 +8,11 @@
     <link rel="apple-touch-icon" sizes="76x76" href="~/material-dashboard-master/assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="~/material-dashboard-master/assets/img/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>@ViewData["Title"]</title>
+
+    @if (!Convert.ToBoolean(ViewData["IsAdmin"]))
+    {
+        <title>@ViewData["Title"]</title>
+    } 
 
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -20,6 +24,7 @@
 
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
@@ -55,22 +60,23 @@
             <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main" style="height:60%">
                 <ul class="navbar-nav">
 
-
+                    @*User Section*@
                     <li class="nav-item mt-3">
                         <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">USER</h6>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="#">
+                        <a class="nav-link text-white " asp-controller="AdminUser" asp-action="Add">
 
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="fa-solid fa-plus"></i>
                             </div>
-
-                            <span class="nav-link-text ms-1">Add</span>
+                            <span class="nav-link-text ms-1" >Add</span>
                         </a>
+
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=2">
+                        <a class="nav-link text-white " asp-controller="AdminUser" asp-action="List">
 
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="fa-solid fa-list"></i>
@@ -78,12 +84,13 @@
                             <span class="nav-link-text ms-1">List</span>
                         </a>
                     </li>
+                    @*Category Section*@
                     <li class="nav-item mt-3">
                         <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">CATEGORY</h6>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=1">
+                        <a class="nav-link text-white " asp-controller="AdminUser" asp-action="Add">
 
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="fa-solid fa-plus"></i>
@@ -93,7 +100,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=2">
+                        <a class="nav-link text-white " asp-controller="AdminUser" asp-action="List">
 
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="fa-solid fa-list"></i>
@@ -101,11 +108,13 @@
                             <span class="nav-link-text ms-1">List</span>
                         </a>
                     </li>
+
+                    @*Product Section*@
                     <li class="nav-item mt-3">
                         <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">PRODUCT</h6>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=1">
+                        <a class="nav-link text-white " asp-controller="AdminUser" asp-action="Add">
 
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="fa-solid fa-plus"></i>
@@ -115,7 +124,16 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white " href="/Home/ProductsByCategory?categoryId=2">
+                        <a class="nav-link text-white " asp-controller="AdminUser" asp-action="List">
+
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="fa-solid fa-list"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">List</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white " asp-controller="AdminUser" asp-action="List">
 
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="fa-solid fa-list"></i>
