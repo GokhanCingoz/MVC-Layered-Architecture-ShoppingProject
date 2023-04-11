@@ -72,7 +72,6 @@
                         url: '@Url.Action("GetAllCartsQuantity","Home")',
                         type: 'POST',
                         dataType: 'json',
-                        data: null,
                         success: function (quantity) {
                             $("#navbarCartsQuantity")[0].innerText = quantity;
                         }
@@ -160,6 +159,7 @@
     }
 
     function SortBy(sortBy) {
+
         $("#cartField").load('@Url.Action("GetProductsSorted","Home")' + '?sortBy=' + sortBy)
 
         $("#dropdownMenuButton")[0].innerText = $("#" + sortBy)[0].innerText

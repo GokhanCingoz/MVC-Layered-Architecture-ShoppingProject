@@ -210,7 +210,6 @@ namespace Shopping.Web.Controllers
                 model.Add(productBySearch);
             }
 
-
             var cartQuantity = GetAllCartsQuantity();
 
             ViewData["TotalCartsQuantity"] = cartQuantity;

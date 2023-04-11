@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using EntityLayer.Domain;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EntityLayer.Domain
+namespace Shopping.Web.Models
 {
-    public class Delivery
+    public class DeliveryModel
     {
         [Key]
         public int Id { get; set; }
@@ -19,8 +15,8 @@ namespace EntityLayer.Domain
         public int PhoneNum { get; set; }
         public string Email { get; set; }
         public int UserId { get; set; }
+        public bool IsDraft { get; set; }
         public virtual User User { get; set; }
-        public ICollection<DeliveryItem> DeliveryDetail { get; }
-
+        public ICollection<DeliveryItem> DeliveryDetails { get; }
     }
 }

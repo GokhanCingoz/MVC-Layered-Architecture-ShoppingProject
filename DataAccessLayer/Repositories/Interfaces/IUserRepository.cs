@@ -19,5 +19,7 @@ namespace DataAccessLayer.Repositories.Interfaces
         User UpdateAsync(User user);
         User Delete(User user);
         public bool IsAdmin(int userId);
+        User GetUserById(int id);
+        
     }
 }

@@ -21,6 +21,6 @@ namespace DataAccessLayer.Context
         public DbSet<Delivery> Deliveries { get; set; } 
         public DbSet<Cart> Carts { get; set; } 
         public DbSet<Favorite> Favorites { get; set; } 
-        public DbSet<DeliveryDetail> DeliveryDetails { get; set; } 
+        public DbSet<DeliveryItem> DeliveryDetails { get; set; } 
     }
 }

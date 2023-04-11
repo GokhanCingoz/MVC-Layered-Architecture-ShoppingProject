@@ -14,8 +14,8 @@ namespace EntityLayer.Domain
         public int Stock { get; set; }
         public string ImgLink { get; set; }
         public int CategoryId { get; set; }
-        public virtual Category Category { get; set; }
-        public ICollection<DeliveryDetail> DeliveryDetails { get; }
+        public virtual Category Category { get; set; }       
         public bool IsDeleted { get; set; }
+        public ICollection<DeliveryItem> DeliveryDetails { get; }
     }
 }

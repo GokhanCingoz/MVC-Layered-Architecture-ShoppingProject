@@ -1,4 +1,5 @@
-﻿using EntityLayer.Domain;
+﻿using BusinessLayer.DTOs;
+using EntityLayer.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace BusinessLayer.Managements.Interfaces
         int GetAllCartsQuantity(int userId);
         void DecraseCartQuantity(Cart cart);
         double TotalPrice(int userId);
+        void CreateDelivery(PaymentDto paymentDto);
 
     }
 }
