@@ -1,0 +1,72 @@
+﻿@model List<EntityLayer.Domain.Product>
+@{
+
+}
+@*creative tim tablo*@
+<div class="bg-opacity-10 py-2" style="background-color:aliceblue">
+    <div class="container">
+        <h1>Product List</h1>
+    </div>
+</div>
+<div class="card ">
+    <div class="table-responsive">
+        <table class="table align-items-center mb-0">
+            <thead>
+                <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Id</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Title</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Description</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Brand</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Price</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Rating</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Stock</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Image Link</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Category Id</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="d-flex px-2 py-1">
+
+                                <div class="d-flex flex-column justify-content-center">
+                                    <h6 class="mb-0 text-xs">@product.Id</h6>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="text-xs text-secondary mb-0">@product.Title</p>
+                        </td>
+                        <td>
+                            <p class="text-xs text-secondary mb-0">@product.Description</p>
+                        </td>
+                        <td>
+                            <p class="text-xs text-secondary mb-0">@product.Brand</p>
+                        </td>
+                        <td>
+                            <p class="text-xs text-secondary mb-0">@product.Price</p>
+                        </td>
+                        <td>
+                            <p class="text-xs text-secondary mb-0">@product.Rating</p>
+                        </td>
+                        <td>
+                            <p class="text-xs text-secondary mb-0">@product.Stock</p>
+                        </td>
+                        <td>
+                            <p class="text-xs text-secondary mb-0">@product.ImgLink</p>
+                        </td>
+                        <td>
+                            <p class="text-xs text-secondary mb-0">@product.CategoryId</p>
+                        </td>
+
+                        <td class="align-middle">
+                            <a *@ href="/AdminProduct/Edit?productId=@product.Id" class="btn btn-default mb-0 "><i class="fas fa-pencil-alt"></i> Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

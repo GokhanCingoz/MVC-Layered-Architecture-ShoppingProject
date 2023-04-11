@@ -16,5 +16,6 @@ namespace Shopping.Web.Models
         public CategoryModel Category { get; set; }
 
         public bool IsFavorite { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

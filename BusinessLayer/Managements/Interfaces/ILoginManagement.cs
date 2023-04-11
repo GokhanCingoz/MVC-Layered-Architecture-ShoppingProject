@@ -13,6 +13,11 @@ namespace BusinessLayer.Managements.Interfaces
         public User LoginControl(string username, string password);
         void SignUpUser(User user);
         bool UserNameControl(string username);
+        //Admin section
+        Task<User?> GetAsync(int id);
+        Task<User?> AddAsync(User user);
+        User UpdateAsync(User user);
+        public bool IsAdmin(int userId);
         bool UserAdminControl(int userId);
     }
 }

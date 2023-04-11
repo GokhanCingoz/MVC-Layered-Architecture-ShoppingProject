@@ -10,5 +10,10 @@ namespace DataAccessLayer.Repositories.Interfaces
     public interface ICategoryRepository
     {
         List<Category> GetAllCategories();
+        //Admin section
+        Task<Category?> AddAsync(Category category);
+        Task<Category?> GetAsync(int id);
+        Category? Update(Category category);
+        Category? Delete(Category category);
     }
 }

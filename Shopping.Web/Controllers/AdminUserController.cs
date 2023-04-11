@@ -2,7 +2,6 @@
 using Shopping.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using DataAccessLayer.Repositories.Interfaces;
-using Azure;
 using BusinessLayer.Managements.Interfaces;
 
 namespace Shopping.Web.Controllers
@@ -10,7 +9,6 @@ namespace Shopping.Web.Controllers
     public class AdminUserController : Controller
 
     {
-
         //DI
         public readonly ILoginManagement _loginManagement;
         private readonly IUserRepository userRepository;
@@ -43,9 +41,9 @@ namespace Shopping.Web.Controllers
                 IsAdmin = userModel.IsAdmin
 
             };
-            await userRepository.AddAsync(user);
-            return View(user);
-            //return RedirectToAction("List");
+            await _loginManagement.AddAsync(user);
+            //return View(user);
+            return RedirectToAction("List");
         }
         //User List - Get method
         [HttpGet]
@@ -60,7 +58,7 @@ namespace Shopping.Web.Controllers
         public async Task<IActionResult> Edit(int userId)
         {
             ViewData["IsAdmin"] = IsAdmin();
-            var user = await userRepository.GetAsync(userId);
+            var user = await _loginManagement.GetAsync(userId);
 
             if (user != null)
             {
@@ -95,18 +93,34 @@ namespace Shopping.Web.Controllers
                 IsAdmin = editUserRequest.IsAdmin
             };
 
-            var updatedUser = userRepository.UpdateAsync(user);
+            var updatedUser = _loginManagement.UpdateAsync(user);
 
-            return Json(updatedUser != null); 
+            return Json(updatedUser != null);
+        }
+        //User Delete - Post Action
+        [HttpPost]
+        public IActionResult Delete(DeleteUserRequest deleteUserRequest)
+        {
+            ViewData["IsAdmin"] = IsAdmin();
+            var user = new User
+            {
+                Id= deleteUserRequest.Id,
+                Name = deleteUserRequest.Name,
+                Surname = deleteUserRequest.Surname,
+                Password = deleteUserRequest.Password,
+                Username = deleteUserRequest.Username,
+                IsAdmin = deleteUserRequest.IsAdmin,
+                IsDeleted = deleteUserRequest.IsDeleted
+            };
+            var deletedUser = userRepository.Delete(user);
+            return Json(deletedUser != null);
         }
 
         public bool IsAdmin()
         {
-
             var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
             var IsAdmin = _loginManagement.UserAdminControl(userId);
             return IsAdmin;
-
         }
     }
 }

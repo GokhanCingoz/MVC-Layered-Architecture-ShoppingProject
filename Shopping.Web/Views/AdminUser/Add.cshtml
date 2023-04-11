@@ -2,7 +2,7 @@
 @{
 }
 
-<div class="bg-secondary bg-opacity-10 py-2">
+<div class="bg-opacity-10 py-2" style="background-color:aliceblue">
     <div class="container">
         <h1>Add Users</h1>
     </div>
@@ -18,7 +18,6 @@
             </div>
             <div class="col-md-6">
                 <div class="input-group input-group-outline my-3">
-                    <label class="form-label">User Id</label>
                     <input type="text" class="form-control" id="name" asp-for="Id" />
                 </div>
             </div>
@@ -31,7 +30,6 @@
             </div>
             <div class="col-md-6">
                 <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Name</label>
                     <input type="text" class="form-control" id="name" asp-for="Name">
                 </div>
             </div>
@@ -44,7 +42,6 @@
             </div>
             <div class="col-md-6">
                 <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Surname</label>
                     <input type="text" class="form-control" id="surname" asp-for="Surname">
                 </div>
             </div>
@@ -57,7 +54,6 @@
             </div>
             <div class="col-md-6">
                 <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Password</label>
                     <input type="text" class="form-control" id="password" asp-for="Password">
                 </div>
             </div>
@@ -70,7 +66,6 @@
             </div>
             <div class="col-md-6">
                 <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Username</label>
                     <input type="text" class="form-control" id="userName" asp-for="Username">
                 </div>
             </div>
@@ -80,17 +75,28 @@
                 <div class="input-group input-group-outline my-4 justify-content-end">
                     <span class="badge bg-gradient-info">Status</span>
                 </div>
+
             </div>
             <div class="col-md-6">
                 <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Status</label>
-                    <input type="text" class="form-control" id="isAdmin" asp-for="IsAdmin">
+
+                    @*<input type="text" class="form-control" id="isAdmin" asp-for="IsAdmin">*@
+                    
+                    @*<select class="form-control" id="exampleFormControlSelect1">
+                        <option value="False">User</option>
+                        <option value="True">Admin</option>
+                    </select>*@
+                    <div>
+                        Admin : <input id="isAdmin" asp-for="IsAdmin" name="admin" type="radio" value="True"/>
+                        @*User : <input id="user" name="user" type="radio" value="False" />*@
+                    </div>
+
                 </div>
             </div>
         </div>
-        <div>
-
-            <button type="submit" class="btn btn-danger" asp-controller="AdminUser" asp-action="Add">Add</button>
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success" ><i class="fa-solid fa-plus"></i> Add</button>
         </div>
+        
     </div>
 </form>

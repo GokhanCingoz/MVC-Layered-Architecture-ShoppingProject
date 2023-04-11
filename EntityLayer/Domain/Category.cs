@@ -9,5 +9,7 @@ namespace EntityLayer.Domain
         public string Name { get; set; }
         public string Icon { get; set; }
         public ICollection<Product> Products { get; set; }
+        public bool IsDeleted { get; set; }
+
     }
 }

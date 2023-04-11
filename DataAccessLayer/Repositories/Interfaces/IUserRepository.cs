@@ -13,10 +13,11 @@ namespace DataAccessLayer.Repositories.Interfaces
         Task<IEnumerable<User>> GetAllUsersAsync();
         IEnumerable<User> GetAllUsers();
         void Add(User user);
+        //Admin section
         Task<User?> GetAsync(int id);
         Task<User?> AddAsync(User user);
         User UpdateAsync(User user);
+        User Delete(User user);
         public bool IsAdmin(int userId);
-        
     }
 }

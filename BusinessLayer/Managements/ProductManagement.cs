@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Managements.Interfaces;
+using DataAccessLayer.Context;
 using DataAccessLayer.Repositories.Interfaces;
 using EntityLayer.Domain;
 using System;
@@ -17,14 +18,31 @@ namespace BusinessLayer.Managements
         {
             _productRepository = productRepository;
         }
+        public List<Product> GetProductsByCategoryId(int id)
+        {
+            return _productRepository.GetAllProducts().Where(x => x.CategoryId == id).ToList();
+        }
+        //Admin
         public List<Product> GetAllProduct()
         {
             return _productRepository.GetAllProducts();
         }
-
-        public List<Product> GetProductsByCategoryId(int id)
+        public async Task<Product?> AddAsync(Product product)
         {
-            return _productRepository.GetAllProducts().Where(x => x.CategoryId == id).ToList();
+            return await _productRepository.AddAsync(product);
+        }
+
+        public async Task<Product?> GetAsync(int id)
+        {
+            return await _productRepository.GetAsync(id);
+        }
+        public Product? Update(Product product)
+        {
+            return _productRepository.Update(product);
+        }
+        public Product? Delete(Product product)
+        {
+            return _productRepository.Delete(product);
         }
     }
 }

@@ -21,7 +21,8 @@ namespace DataAccessLayer.Repositories
 
         public IEnumerable<User> GetAllUsers()
         {
-            return _contextDb.Users.ToList();
+            //return _contextDb.Users.ToList();
+            return _contextDb.Users.Where(x => x.IsDeleted == false).ToList();
         }
 
 
@@ -63,6 +64,24 @@ namespace DataAccessLayer.Repositories
               _contextDb.SaveChanges();
                 return existingUser;
 
+            }
+            return null;
+        }
+        public User Delete(User user)
+        {
+            var existingUser = _contextDb.Users.Find(user.Id);
+            if (existingUser != null)
+            {
+                existingUser.Id = user.Id;
+                existingUser.Name = user.Name;
+                existingUser.Surname = user.Surname;
+                existingUser.Password = user.Password;
+                existingUser.Username = user.Username;
+                existingUser.IsAdmin = user.IsAdmin;
+                existingUser.IsDeleted = true;
+
+                _contextDb.SaveChanges();
+                return existingUser;
             }
             return null;
         }

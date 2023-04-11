@@ -11,5 +11,10 @@ namespace BusinessLayer.Managements.Interfaces
     {
         List<Product> GetAllProduct();
         List<Product> GetProductsByCategoryId(int categoryId);
+        Task<Product?> GetAsync(int id);
+        Task<Product?> AddAsync(Product product);
+        Product? Update(Product product);
+        Product? Delete(Product product);
+
     }
 }

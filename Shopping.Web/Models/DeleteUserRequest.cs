@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Shopping.Web.Models
+﻿namespace Shopping.Web.Models
 {
-    public class UserModel
+    public class DeleteUserRequest
     {
         public int Id { get; set; }
         public string Name { get; set; }

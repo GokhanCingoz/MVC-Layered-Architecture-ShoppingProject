@@ -49,5 +49,26 @@ namespace BusinessLayer.Managements
         {
             return _userRepository.IsAdmin(userId);
         }
+        //Admin section
+        public Task<User?> GetAsync(int id)
+        {
+            return _userRepository.GetAsync(id);
+        }
+
+        public Task<User?> AddAsync(User user)
+        {
+            return _userRepository.AddAsync(user);
+        }
+
+        public User UpdateAsync(User user)
+        {
+            return _userRepository.UpdateAsync(user);
+        }
+
+        public bool IsAdmin(int userId)
+        {
+            return _userRepository.IsAdmin(userId);
+
+        }
     }
 }

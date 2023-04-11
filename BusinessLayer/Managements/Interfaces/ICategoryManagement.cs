@@ -10,5 +10,10 @@ namespace BusinessLayer.Managements.Interfaces
     public interface ICategoryManagement 
     {
         List<Category> GetAllCategories();
+        Task<Category?> AddAsync(Category category);
+        Task<Category?> GetAsync(int id);
+        Category? Update(Category category);
+        Category? Delete(Category category);
+
     }
 }

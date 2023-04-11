@@ -1,0 +1,56 @@
+﻿@model List<EntityLayer.Domain.Category>
+@{
+
+}
+@*creative tim tablo*@
+<div class="bg-opacity-10 py-2" style="background-color:aliceblue">
+    <div class="container">
+        <h1>Category List</h1>
+    </div>
+</div>
+<div class="card ">
+    <div class="table-responsive">
+        <table class="table align-items-center mb-0">
+            <thead>
+                <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Id</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Name</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Icon</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var category in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="d-flex px-2 py-1">
+
+                                <div class="d-flex flex-column justify-content-center">
+                                    <h6 class="mb-0 text-xs">@category.Id</h6>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="text-xs text-secondary mb-0">@category.Name</p>
+                        </td>
+                        <td>
+                            <p class="text-xs text-secondary mb-0">@category.Icon</p>
+                        </td>
+
+                        <td class="align-middle">
+                            <a  *@ href="/AdminCategory/Edit?categoryId=@category.Id" class="btn btn-default mb-0 "><i class="fas fa-pencil-alt"></i> Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    //function edit(userId) {
+
+    //    window.location.href = "/AdminUser/Edit?userId="+userId;
+    //}
+
+</script>

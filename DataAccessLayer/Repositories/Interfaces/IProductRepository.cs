@@ -10,5 +10,10 @@ namespace DataAccessLayer.Repositories.Interfaces
     public interface IProductRepository
     {
         List<Product> GetAllProducts();
+        //Admin section
+        Task<Product?> GetAsync(int id);
+        Task<Product?> AddAsync(Product product);
+        Product? Update(Product product);
+        Product? Delete(Product product);
     }
 }
