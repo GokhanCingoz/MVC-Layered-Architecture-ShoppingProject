@@ -14,7 +14,6 @@ namespace Shopping.Web.Models
         public string ImgLink { get; set; }
         public int CategoryId { get; set; }
         public CategoryModel Category { get; set; }
-
         public bool IsFavorite { get; set; }
         public bool IsDeleted { get; set; }
     }

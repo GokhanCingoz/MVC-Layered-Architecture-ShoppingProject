@@ -53,7 +53,7 @@
                             <div class="col-lg-8 shopping-cart">
                                 <div class="p-5">
                                     <div class="d-flex justify-content-between align-items-center mb-5">
-                                        <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+                                        <h1 class="fw-bold mb-0 text-black">Payment</h1>
                                         <h6 class="mb-0 text-muted" id="sTotalItems">@ViewData["TotalCartsQuantity"] Items</h6>
                                     </div>
 
@@ -90,7 +90,7 @@
                                         <div class="row mt-5">
                                             <div class="col-md-12">
                                                 <div class="input-group input-group-dynamic focused is-focused ">
-                                                    <textarea id="adres"class="form-control" rows="3" placeholder="Address" spellcheck="false"></textarea>
+                                                    <textarea id="adres" class="form-control" rows="3" placeholder="Address" spellcheck="false"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -277,10 +277,36 @@
 
     function pay() {
         if (formValidation()) {
-             window.location.href = "/Delivery/Index/";
+            //window.location.href = "/Delivery/Index/";
+            var phoneInput = document.getElementById('phone');
+            phoneInput.value = phoneInput.value.replace(/\D/g, '');
+            debugger;
+            $.ajax({
+                url: '@Url.Action("CreateDelivery","Cart")',
+                type: 'POST',
+                dataType: 'json',
+                data:
+                {
+                    Adress: $("#adres").val(),
+                    Email: $("#email").val(),
+                    Name: $("#name").val(),
+                    PhoneNum: phoneInput.value,
+                    SurName: $("#surname").val(),
+                },
+                success: function (id) // createDelivery metoduna giden data çalışırsa bir id dönüyor. o id
+                {
+                    if (id > 0) {
+                        window.location.href = "/Cart/CreateCheckoutSession?deliveryId="+id;
+                    }
+
+                },
+                error: function (e) {
+
+                }
+            });
 
         }
-        else{
+        else {
             notificationAlert("danger", "ERROR!!!", "Please make sure all fields are filled properly!!!")
         }
         //var phoneInput = document.getElementById('phone');
@@ -311,8 +337,8 @@
         return false;
     }
 
-    function formValidation(){
-        if ($("#name").val() == "" || $("#name").val() == undefined || $("#surname").val() == "" || $("#surname").val() == undefined || $("#phone").val() == "" || $("#phone").val() == undefined || $("#email").val() == "" || $("#email").val() == undefined || validation()==false||$("#phone").val().length<14|| $("#adres").val() == "" || $("#adres").val() == undefined) {
+    function formValidation() {
+        if ($("#name").val() == "" || $("#name").val() == undefined || $("#surname").val() == "" || $("#surname").val() == undefined || $("#phone").val() == "" || $("#phone").val() == undefined || $("#email").val() == "" || $("#email").val() == undefined || validation() == false || $("#phone").val().length < 14 || $("#adres").val() == "" || $("#adres").val() == undefined) {
 
             return false;
         }

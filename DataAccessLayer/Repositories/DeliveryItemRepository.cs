@@ -17,9 +17,9 @@ namespace DataAccessLayer.Repositories
         {
             _contextDb = contextDb;
         }
-        public void AddDeliveryItem(DeliveryItem deliveryItem)
+        public void AddDeliveryItem(List<DeliveryItem> deliveryItem)
         {
-            _contextDb.DeliveryDetails.Add(deliveryItem);
+            _contextDb.DeliveryDetails.AddRange(deliveryItem);
             _contextDb.SaveChanges();
         }
 

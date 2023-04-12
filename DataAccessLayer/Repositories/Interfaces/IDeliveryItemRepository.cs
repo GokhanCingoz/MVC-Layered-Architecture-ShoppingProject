@@ -9,7 +9,7 @@ namespace DataAccessLayer.Repositories.Interfaces
 {
     public interface IDeliveryItemRepository
     {
-        void AddDeliveryItem(DeliveryItem deliveryItem);
+        void AddDeliveryItem(List<DeliveryItem> deliveryItem);
         void GetDeliveryItemByDeliveryId(int deliveryId);
 
     }

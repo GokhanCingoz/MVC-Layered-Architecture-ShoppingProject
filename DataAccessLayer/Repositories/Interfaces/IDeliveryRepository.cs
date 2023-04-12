@@ -9,8 +9,9 @@ namespace DataAccessLayer.Repositories.Interfaces
 {
     public interface IDeliveryRepository
     {
-        void AddToDelivery(Delivery delivery);
-        void GetDeliveryByUserId(int userId);
+        int AddToDelivery(Delivery delivery);
+        public List<Delivery> GetDeliveryByUserId(int userId);
+        void ApproveDelivery(int deliveryId);
 
     }
 }
