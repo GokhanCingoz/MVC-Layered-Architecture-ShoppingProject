@@ -53,7 +53,9 @@ namespace DataAccessLayer.Repositories
         public void RemoveAllCartsByUserId(int userId)
         {
            var cartsByUserId= GetAllCarts(userId);
+
             _contextDb.Carts.RemoveRange(cartsByUserId);
+            _contextDb.SaveChanges();
         }
     }
 }

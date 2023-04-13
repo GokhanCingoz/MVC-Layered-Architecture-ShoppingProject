@@ -94,7 +94,7 @@ namespace BusinessLayer.Managements
             return totalPrice;
         }
 
-        public void CreateDelivery(PaymentDto paymentDto)
+        public int CreateDelivery(PaymentDto paymentDto)
         {
             var userCartItems = GetAllCartByUserId(paymentDto.UserId);
             var delivery = new Delivery
@@ -107,23 +107,36 @@ namespace BusinessLayer.Managements
                 SurName = paymentDto.SurName,
                 PhoneNum = paymentDto.PhoneNum,
                 UserId = paymentDto.UserId,
+                IsDraft = true
             };
+
+            var deliveryId = deliveryRepository.AddToDelivery(delivery);
+
+            var deliveryItems = new List<DeliveryItem>();
 
             foreach (var item in userCartItems)
             {
                 var deliveryItem = new DeliveryItem
                 {
-                    Id = delivery.Id,
+                    DeliveryId = deliveryId,
                     ProductId = item.ProductId,
                     Quantity = item.Quantity,
                     Product = item.Product,
+                    TotalPrice = item.Product.Price * item.Quantity,
                 };
 
-                delivery.DeliveryDetail.Add(deliveryItem);
+                deliveryItems.Add(deliveryItem);
             }
 
-            deliveryRepository.AddToDelivery(delivery);
-            cartRepository.RemoveAllCartsByUserId(paymentDto.UserId);
+            deliveryItemRepository.AddDeliveryItem(deliveryItems);
+
+            return deliveryId;
+        }
+
+        public void ApproveDelivery(int deliveryId, int userId)
+        {
+            deliveryRepository.ApproveDelivery(deliveryId);
+            cartRepository.RemoveAllCartsByUserId(userId);
         }
     }
 }

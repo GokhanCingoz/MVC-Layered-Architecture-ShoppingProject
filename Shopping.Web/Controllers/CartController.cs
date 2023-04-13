@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Managements;
+﻿using BusinessLayer.DTOs;
+using BusinessLayer.Managements;
 using BusinessLayer.Managements.Interfaces;
 using EntityLayer.Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -128,7 +129,25 @@ namespace Shopping.Web.Controllers
             return favoriteQuantity;
         }
 
-        public IActionResult CreateCheckoutSession()
+        public int CreateDelivery(PaymentModel payment)
+        {
+            var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
+            var paymentDto = new PaymentDto
+            {
+                Adress = payment.Adress,
+                Email = payment.Email,
+                Name = payment.Name,
+                PhoneNum = payment.PhoneNum,
+                SurName = payment.SurName,
+                TotalPrice = _cartManagement.TotalPrice(userId),
+                TotalQuantity = GetAllCartsQuantity(),
+                UserId = userId,
+            };
+
+            return _cartManagement.CreateDelivery(paymentDto);
+        }
+
+        public IActionResult CreateCheckoutSession(int deliveryId)
         {
 
             var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
@@ -155,7 +174,7 @@ namespace Shopping.Web.Controllers
                 },
 
                 Mode = "payment",
-                SuccessUrl = "https://localhost:44388/Home/Index",
+                SuccessUrl = "https://localhost:44388/Cart/ApproveDelivery?deliveryId="+deliveryId,
                 CancelUrl = "https://localhost:44388/Cart/Index",
             };
             var service = new Stripe.Checkout.SessionService();
@@ -180,6 +199,17 @@ namespace Shopping.Web.Controllers
                 TotalQuantity = GetAllCartsQuantity(),
             };
             return View(model);
+        }
+
+        public IActionResult ApproveDelivery(int deliveryId)
+        {
+            //management approve
+            var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
+
+            _cartManagement.ApproveDelivery(deliveryId, userId);
+
+            Response.Headers.Add("Location", "https://localhost:44388/Home/Index");
+            return StatusCode(StatusCodes.Status303SeeOther);
         }
 
         private void SetCommonViewData(int userId)

@@ -51,7 +51,7 @@ namespace Shopping.Web.Controllers
                 categoriesModel.Add(categoryModel);
             }
            
-            HttpContext.Session.SetString("CategoryList", JsonSerializer.Serialize(categoriesModel));
+            HttpContext.Session.SetString("CategoryList", JsonSerializer.Serialize(categoriesModel)); 
 
             var favoriteProductIds = _favoriteManagement.GetAllFavoritesByUserId(userId).Select(x => x.ProductId).ToList();
 

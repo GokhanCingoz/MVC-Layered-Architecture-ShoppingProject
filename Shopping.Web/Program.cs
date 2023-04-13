@@ -31,6 +31,7 @@ builder.Services.AddScoped<ICategoryManagement, CategoryManagement>();
 builder.Services.AddScoped<IUserManagement, UserManagement>();
 builder.Services.AddScoped<IDeliveryRepository, DeliveryRepository>();
 builder.Services.AddScoped<IDeliveryItemRepository, DeliveryItemRepository>();
+builder.Services.AddScoped<IDeliveryManagement, DeliveryManagement>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();// category sessionu view'a göndermek için
 
