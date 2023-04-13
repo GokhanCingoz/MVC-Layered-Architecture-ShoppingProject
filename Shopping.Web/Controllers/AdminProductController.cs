@@ -8,6 +8,7 @@ using EntityLayer.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Shopping.Web.Models;
+using System.Text.Json;
 
 namespace Shopping.Web.Controllers
 {
@@ -15,10 +16,14 @@ namespace Shopping.Web.Controllers
     {
         public readonly ILoginManagement _loginManagement;
         public readonly IProductManagement _productManagement;
-        public AdminProductController(IProductManagement productManagement, ILoginManagement loginManagement)
+        public readonly ICategoryManagement _categoryManagement;
+
+        public AdminProductController(IProductManagement productManagement, ILoginManagement loginManagement, ICategoryManagement categoryManagement)
         {
             _productManagement = productManagement;
             _loginManagement = loginManagement;
+            _categoryManagement = categoryManagement;
+
         }
         //Product Get Method
         [HttpGet]
@@ -55,6 +60,22 @@ namespace Shopping.Web.Controllers
         {
             var product = _productManagement.GetAllProduct();
             ViewData["IsAdmin"] = IsAdmin();
+            var categories = _categoryManagement.GetAllCategories();
+
+            List<CategoryModel> categoriesModel = new List<CategoryModel>();
+
+            foreach (var category in categories)
+            {
+                var categoryModel = new CategoryModel
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                    Icon = category.Icon,
+                };
+                categoriesModel.Add(categoryModel);
+            }
+
+            HttpContext.Session.SetString("CategoryList", JsonSerializer.Serialize(categoriesModel));
             return View(product);
         }
         //Product Edit - Get Action

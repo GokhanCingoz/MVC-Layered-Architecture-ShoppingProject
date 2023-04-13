@@ -78,14 +78,15 @@
             </div>
             <div class="col-md-6">
                 <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" id="isAdmin" asp-for="IsAdmin">
+                    <select class="form-control" id="exampleFormControlSelect1" asp-for="IsAdmin">
+                        <option value="true">Admin</option>
+                        <option value="false">User</option>
+                    </select>
                 </div>
             </div>
         </div>
-        <div>
+        <div class="text-end mx-auto">
             <button type="submit" class="btn btn-danger" id="update">Update</button>
-        </div>
-        <div>
             <button type="submit" class="btn btn-danger" id="delete">Remove</button>
         </div>
     </div>
