@@ -1,12 +1,14 @@
 ﻿<style>
     .btn-secondary, .btn.bg-gradient-secondary {
-        box-shadow: 0 2px 2px 0 rgb(229,51,113), 0 2px 1px -2px rgb(229,51,113), 0 1px 5px 0 rgb(229,51,113);
+        box-shadow: 0 2px 2px 0 rgb(156,39,176,0.8), 0 2px 1px -2px rgb(156,39,176,0.8)
+        , 0 1px 5px 0 rgb(156,39,176,0.8);
     }
 
         .btn-secondary:hover, .btn.bg-gradient-secondary:hover {
             background-color: #7b809a;
             border-color: #7b809a;
-            box-shadow: 0 2px 2px 0 rgb(229,51,113), 0 2px 1px -2px rgb(229,51,113), 0 1px 5px 0 rgb(229,51,113);
+            box-shadow: 0 2px 2px 0 rgb(156,39,176,0.8), 0 2px 1px -2px rgb(156,39,176,0.8), 0 1px 5px 0 rgb(156,39,176,0.8);
+            
         }
 
     .badge {
@@ -98,7 +100,7 @@
 
         }
         else {
-            $("#fvrBtn_" + productId).css("background-color", "rgb(229,51,113)");
+            $("#fvrBtn_" + productId).css("background-color", "rgb(156,39,176,0.8)");
             $("#fvrBtn_" + productId + " i").removeClass("fa-heart-circle-minus");
             $("#fvrBtn_" + productId + " i").addClass("fa-heart-circle-plus");
             removeFromFavorite(productId);
