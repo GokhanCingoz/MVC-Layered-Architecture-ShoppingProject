@@ -1,10 +1,12 @@
 ﻿using BusinessLayer.Managements;
 using BusinessLayer.Managements.Interfaces;
+using DataAccessLayer.Context;
 using DataAccessLayer.Migrations;
 using DataAccessLayer.Repositories;
 using DataAccessLayer.Repositories.Interfaces;
 using EntityLayer.Domain;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Shopping.Web.Models;
 
 namespace Shopping.Web.Controllers
@@ -120,6 +122,6 @@ namespace Shopping.Web.Controllers
             var IsAdmin = _loginManagement.UserAdminControl(userId);
             return IsAdmin;
         }
-
+      
     }
 }

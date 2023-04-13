@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shopping.Web.Models
 {
@@ -11,6 +12,5 @@ namespace Shopping.Web.Models
         public string Username { get; set; }
         public bool IsAdmin { get; set; }
         public bool IsDeleted { get; set; }
-
     }
 }
