@@ -40,6 +40,10 @@
         width: 100%;
     }
 
+    .bg-grey {
+        background-color: rgb(238,238,238)
+    }
+
 </style>
 
 @model List<CartModel>
@@ -53,7 +57,7 @@
                             <div class="col-lg-8 shopping-cart">
                                 <div class="p-5">
                                     <div class="d-flex justify-content-between align-items-center mb-5">
-                                        <h1 class="fw-bold mb-0 text-black">Payment</h1>
+                                        <h1 class="fw-bold mb-0 text-black">Shopping Cart
                                         <h6 class="mb-0 text-muted" id="sTotalItems">@ViewData["TotalCartsQuantity"] Items</h6>
                                     </div>
 
@@ -139,11 +143,20 @@
                                         <h5 class="text-uppercase">Total price</h5>
                                         <h5 id="bTotalPrice">@ViewData["TotalPrice"]</h5>
                                     </div>
-
-                                    <button type="button" onclick="pay()" class="btn btn-dark btn-block btn-lg "
+                                    @if (Model.Count() <= 0)
+                                    {
+                                        <button type="button" onclick="pay()" class="btn btn-dark btn-block btn-lg " disabled
+                                            data-mdb-ripple-color="dark" >
+                                            Proceed to checkout
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" onclick="pay()" style="background-color:rgb(156,39,176,0.8);" class="btn btn-dark btn-block btn-lg "
                                             data-mdb-ripple-color="dark">
-                                        Proceed to checkout
-                                    </button>
+                                            Proceed to checkout
+                                        </button>
+                                    }
 
                                 </div>
                             </div>

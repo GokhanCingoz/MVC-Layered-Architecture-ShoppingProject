@@ -55,74 +55,90 @@
                                     <div class="d-flex justify-content-between align-items-center mb-5">
                                         <h1 class="fw-bold mb-0 text-black">My Deliveries</h1>
                                     </div>
-
-                                    <div class="card">
-                                        <div class="table-responsive">
-                                            <table class="table align-items-center mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="text-uppercase text-black text-m font-weight-bolder ">Name</th>
-                                                        <th class="text-uppercase text-black text-m font-weight-bolder  ps-2">Delivery Date</th>
-                                                        <th class="text-center text-uppercase text-black text-m font-weight-bolder ">Total Quantity</th>
-                                                        <th class="text-center text-uppercase text-black text-m font-weight-bolder ">Total Price</th>
-                                                        <th class="text-secondary opacity-7"></th>
-                                                    </tr>
-                                                </thead>
-
-                                                <tbody>
-                                                    @foreach (var item in Model)
-                                                    {
+                                    @if (Model.Count() > 0)
+                                    {
+                                        <div class="card">
+                                            <div class="table-responsive">
+                                                <table class="table align-items-center mb-0">
+                                                    <thead>
                                                         <tr>
-                                                            <td>
-                                                                <div class="d-flex px-2 py-1">
-                                                                    <div class="d-flex flex-column justify-content-center">
-                                                                        <p class="mb-0 text-m font-weight-bold">@(item.Name + " " + @item.SurName)</p>
-
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <p class="text-m  font-weight-bold mb-0">@item.Date.ToShortDateString()</p>
-
-                                                            </td>
-                                                            <td class="align-middle text-center text-sm">
-                                                                <p class="text-m  font-weight-bold mb-0">@item.TotalQuantity</p>
-                                                            </td>
-                                                            <td class="align-middle text-center">
-                                                                <p class="text-m  font-weight-bold mb-0">@string.Format("{0:N2} €", item.TotalPrice)</p>
-                                                            </td>
-                                                            <td class="align-middle">
-                                                                <button type="button" style="cursor: pointer" class="btn btn-outline-secondary view" data-target="/Delivery/DeliveryDetail?id=@item.Id">Details</button>
-
-                                                            </td>
+                                                            <th class="text-uppercase text-black text-m font-weight-bolder ">Name</th>
+                                                            <th class="text-uppercase text-black text-m font-weight-bolder  ps-2">Delivery Date</th>
+                                                            <th class="text-center text-uppercase text-black text-m font-weight-bolder ">Total Quantity</th>
+                                                            <th class="text-center text-uppercase text-black text-m font-weight-bolder ">Total Price</th>
+                                                            <th class="text-secondary opacity-7"></th>
                                                         </tr>
+                                                    </thead>
 
-                                                        <div class="modal fade modal-lg" id="modelView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                                <div class="modal-content" >
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Delivery Detail</h5>
+                                                    <tbody>
 
-                                                                        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
+
+                                                        @foreach (var item in Model)
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="d-flex px-2 py-1">
+                                                                        <div class="d-flex flex-column justify-content-center">
+                                                                            <p class="mb-0 text-m font-weight-bold">@(item.Name + " " + @item.SurName)</p>
+
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="modal-body">
-                                                                        
+                                                                </td>
+                                                                <td>
+                                                                    <p class="text-m  font-weight-bold mb-0">@item.Date.ToShortDateString()</p>
+
+                                                                </td>
+                                                                <td class="align-middle text-center text-sm">
+                                                                    <p class="text-m  font-weight-bold mb-0">@item.TotalQuantity</p>
+                                                                </td>
+                                                                <td class="align-middle text-center">
+                                                                    <p class="text-m  font-weight-bold mb-0">@string.Format("{0:N2} €", item.TotalPrice)</p>
+                                                                </td>
+                                                                <td class="align-middle">
+                                                                    <button type="button" style="cursor: pointer" class="btn btn-outline-secondary view" data-target="/Delivery/DeliveryDetail?id=@item.Id">Details</button>
+
+                                                                </td>
+                                                            </tr>
+
+                                                            <div class="modal fade modal-lg" id="modelView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Delivery Detail</h5>
+
+                                                                            <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    }
+                                                        }
 
 
 
-                                                </tbody>
-                                            </table>
+
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <hr class="my-6">
+                                        <hr class="my-6">
+                                    }
+                                    else
+                                    {
+                                        <div class="alert w-80" style="background-color:rgb(234,232,232)">
+                                            <span>There is no delivery  :(</span>
+                                        </div>
+                                        <div class="text-center mt-4">
+                                            <img src="https://img.freepik.com/free-vector/online-shopping-cart-doodle-style-vector_53876-169140.jpg?w=740&t=st=1681385050~exp=1681385650~hmac=c6ad0d2dc6f0beb0975984add7957fd55da214f86c4c15cf4d00a56eabf2e5f3"
+                                             class=" text-center rounded-3" alt="" style="height:350px">
+                                        </div>
 
+
+                                    }
                                 </div>
                             </div>
 
