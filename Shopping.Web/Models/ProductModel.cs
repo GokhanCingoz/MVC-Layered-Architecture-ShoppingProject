@@ -1,4 +1,5 @@
 ﻿using EntityLayer.Domain;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Shopping.Web.Models
 {
@@ -16,5 +17,6 @@ namespace Shopping.Web.Models
         public CategoryModel Category { get; set; }
         public bool IsFavorite { get; set; }
         public bool IsDeleted { get; set; }
+        public SelectList CategoryList { get; set; }
     }
 }
