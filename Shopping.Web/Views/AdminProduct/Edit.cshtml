@@ -142,6 +142,7 @@
                 </div>
             </div>
         </div>
+       
         <div class="col-md-8 d-flex justify-content-end my-2 px-2 ">
             <button type="submit" class="btn mx-2" id="update" style="background-color:#AA7FC6;color:white">Update</button>
             <button type="submit" class="btn " id="delete" style="background-color:#86C5D8;color:white">Remove</button>
@@ -213,5 +214,26 @@
             });
         });
     });
+
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
 
 </script>

@@ -121,7 +121,6 @@ namespace Shopping.Web.Controllers
             };
 
             var updatedUser = _productManagement.Update(product);
-
             return Json(updatedUser != null);
         }
         //Product Delete - Post Action
