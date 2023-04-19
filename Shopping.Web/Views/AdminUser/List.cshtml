@@ -2,24 +2,28 @@
 @{
 
 }
+<style>
+    h1 {
+        background: linear-gradient(43deg,#86C5D8 0%,#9C27B0 25%);
+        -webkit-background-clip:text;
+        color:transparent;
+    }
+</style>
 @*creative tim tablo*@
-<div class="bg-opacity-10 py-2" style="background-color:aliceblue">
-    <div class="container ">
-        <h1>User List</h1>
-    </div>
+<div class="bg-opacity-10 py-2 mx-5" style="background-color:#F8F9FA">
+    <h1>User List</h1>
 </div>
 <div class="card ">
     <div class="table-responsive">
-
         <table class="table align-items-center mb-0">
             <thead>
                 <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User Id</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Surname</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Password</th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ">Username</th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                    <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">User Id</th>
+                    <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">Name</th>
+                    <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7 ps-2">Surname</th>
+                    <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7 ps-2">Password</th>
+                    <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7 ">Username</th>
+                    <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">Status</th>
                     <th class="text-secondary opacity-7"></th>
                 </tr>
             </thead>
@@ -28,26 +32,16 @@
                 {
                     <tr>
                         <td>
-                            <div class="d-flex px-2 py-1">
-
-                                <div class="d-flex flex-column justify-content-center">
-                                    <h6 class="mb-0 text-xs">@user.Id</h6>
-                                </div>
-                            </div>
+                            <p class="text-xs text-secondary mb-0  text-center">@user.Id</p>
                         </td>
                         <td>
-                            <div class="d-flex px-2 py-1">
-
-                                <div class="d-flex flex-column justify-content-center">
-                                    <h6 class="mb-0 text-xs">@user.Name</h6>
-                                </div>
-                            </div>
+                            <p class="text-xs text-secondary mb-0  text-center">@user.Name</p>
                         </td>
                         <td>
-                            <p class="text-xs text-secondary mb-0">@user.Surname</p>
+                            <p class="text-xs text-secondary mb-0  text-center">@user.Surname</p>
                         </td>
                         <td>
-                            <p class="text-xs text-secondary mb-0">@user.Password</p>
+                            <p class="text-xs text-secondary  text-center mb-0">@user.Password</p>
                         </td>
                         <td class="align-middle text-center">
                             <span class="text-secondary text-xs font-weight-normal">@user.Username</span>
@@ -56,11 +50,11 @@
                             @*<span class="badge badge-sm badge-success">Online</span>*@
                             @if (user.IsAdmin == true)
                             {
-                                <h7><span class="badge badge-sm bg-success">Admin</span></h7>
+                                <h7><span class="badge badge-sm" style="background-color:#86C5D8">Admin</span></h7>
                             }
                             else
                             {
-                                <h7><span class="badge badge-sm bg-success">User</span></h7>
+                                <h7><span class="badge badge-sm" style="background-color:#AA7FC6">User</span></h7>
                             }
 
                         </td>
@@ -85,5 +79,5 @@
 
     //    window.location.href = "/AdminUser/Edit?userId="+userId;
     //}
-       
+
 </script>

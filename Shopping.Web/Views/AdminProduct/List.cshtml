@@ -2,26 +2,31 @@
 @{
 
 }
+<style>
+    h1 {
+        background: linear-gradient(43deg,#86C5D8 0%,#9C27B0 25%);
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+</style>
 @*creative tim tablo*@
-<div class="bg-opacity-10 py-2" style="background-color:aliceblue">
-    <div class="container">
-        <h1>Product List</h1>
-    </div>
+<div class="bg-opacity-10 py-2 mx-3" style="background-color:#F8F9FA">
+    <h1>Product List</h1>
 </div>
 <div class="card ">
     <div class="table-responsive">
         <table class="table align-items-center mb-0">
             <thead>
                 <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Id</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Title</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Description</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Brand</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Price</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Rating</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Stock</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Image Link</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Category Id</th>
+                    <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">Id</th>
+                    <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">Title</th>
+                    <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">Description</th>
+                    <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">Brand</th>
+                    <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">Price</th>
+                    <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">Rating</th>
+                    <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">Stock</th>
+                    <th class=text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">Image Link</th>
+                    <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">Category Id</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,36 +34,31 @@
                 {
                     <tr>
                         <td>
-                            <div class="d-flex px-2 py-1">
-
-                                <div class="d-flex flex-column justify-content-center">
-                                    <h6 class="mb-0 text-xs">@product.Id</h6>
-                                </div>
-                            </div>
+                            <p class="text-xs text-secondary mb-0  text-center">@product.Id</p>
                         </td>
                         <td>
-                            <p class="text-xs text-secondary mb-0">@product.Title</p>
+                            <p class="text-xs text-secondary mb-0 text-center">@product.Title</p>
                         </td>
                         <td>
-                            <p class="text-xs text-secondary mb-0">@product.Description</p>
+                            <p class="text-xs text-secondary mb-0 text-center">@product.Description</p>
                         </td>
                         <td>
-                            <p class="text-xs text-secondary mb-0">@product.Brand</p>
+                            <p class="text-xs text-secondary mb-0 text-center">@product.Brand</p>
                         </td>
                         <td>
-                            <p class="text-xs text-secondary mb-0">@product.Price</p>
+                            <p class="text-xs text-secondary mb-0 text-center">@product.Price</p>
                         </td>
                         <td>
-                            <p class="text-xs text-secondary mb-0">@product.Rating</p>
+                            <p class="text-xs text-secondary mb-0 text-center">@product.Rating</p>
                         </td>
                         <td>
-                            <p class="text-xs text-secondary mb-0">@product.Stock</p>
+                            <p class="text-xs text-secondary mb-0 text-center">@product.Stock</p>
                         </td>
                         <td>
-                            <p class="text-xs text-secondary mb-0">@product.ImgLink</p>
+                            <p class="text-xs text-secondary mb-0 text-center">@product.ImgLink</p>
                         </td>
                         <td>
-                            <p class="text-xs text-secondary mb-0">@product.CategoryId</p>
+                            <p class="text-xs text-secondary mb-0 text-center">@product.CategoryId</p>
                         </td>
 
                         <td class="align-middle">

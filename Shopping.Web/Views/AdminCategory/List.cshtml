@@ -2,20 +2,25 @@
 @{
 
 }
+<style>
+    h1 {
+        background: linear-gradient(43deg,#86C5D8 0%,#9C27B0 25%);
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+</style>
 @*creative tim tablo*@
-<div class="bg-opacity-10 py-2" style="background-color:aliceblue">
-    <div class="container">
+<div class="bg-opacity-10 py-2 mx-5" style="background-color:aliceblue">
         <h1>Category List</h1>
-    </div>
 </div>
 <div class="card ">
     <div class="table-responsive">
         <table class="table align-items-center mb-0">
             <thead>
                 <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Id</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Name</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Icon</th>
+                    <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">Id</th>
+                    <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">Name</th>
+                    <th class="text-center text-uppercase text-secondary text-s font-weight-bolder opacity-7">Icon</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,18 +28,13 @@
                 {
                     <tr>
                         <td>
-                            <div class="d-flex px-2 py-1">
-
-                                <div class="d-flex flex-column justify-content-center">
-                                    <h6 class="mb-0 text-xs">@category.Id</h6>
-                                </div>
-                            </div>
+                            <p class="text-xs text-secondary mb-0  text-center">@category.Id</p>
                         </td>
                         <td>
-                            <p class="text-xs text-secondary mb-0">@category.Name</p>
+                            <p class="text-xs text-secondary mb-0  text-center">@category.Name</p>
                         </td>
                         <td>
-                            <p class="text-xs text-secondary mb-0">@category.Icon</p>
+                            <p class="text-xs text-secondary mb-0 text-center">@category.Icon</p>
                         </td>
 
                         <td class="align-middle">

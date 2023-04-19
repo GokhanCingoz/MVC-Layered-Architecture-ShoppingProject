@@ -31,6 +31,7 @@ namespace Shopping.Web.Controllers
         [ActionName("Add")]
         public async Task<IActionResult> Add(UserModel userModel)
         {
+             if (ModelState.IsValid) {
             ViewData["IsAdmin"] = IsAdmin();
             var user = new User
             {
@@ -44,6 +45,12 @@ namespace Shopping.Web.Controllers
             await _loginManagement.AddAsync(user);
             //return View(user);
             return RedirectToAction("List");
+            }
+
+             else {
+            ViewData["IsAdmin"] = IsAdmin();
+
+                return View(); }
         }
         //User List - Get method
         [HttpGet]

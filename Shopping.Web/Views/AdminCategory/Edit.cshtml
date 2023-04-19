@@ -1,18 +1,27 @@
 ﻿@model Shopping.Web.Models.CategoryModel
 @{
 }
+<style>
+    .container {
+        margin-left: inherit;
+    }
 
-<div class="bg-opacity-10 py-2" style="background-color:aliceblue">
-    <div class="container">
+    h1 {
+        background: linear-gradient(43deg,#86C5D8 0%,#9C27B0 25%);
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+
+</style>
+<div class="bg-opacity-10 py-2 mx-6" style="background-color:aliceblue">
         <h1>Edit Category</h1>
-    </div>
 </div>
-<form>
-    <div class="container text-center">
+<form class="mx-start needs-validation " novalidate>
+    <div class="container mx-start">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-2">
                 <div class="input-group input-group-outline my-4 justify-content-end">
-                    <span class="badge bg-gradient-info">Category Id</span>
+                    <span class="badge bg-gradient " style=" background-color:#334A78">Category Id</span>
                 </div>
             </div>
             <div class="col-md-6">
@@ -22,34 +31,36 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-2">
                 <div class="input-group input-group-outline my-4 justify-content-end">
-                    <span class="badge bg-gradient-info">Name</span>
+                    <span class="badge bg-gradient " style=" background-color:#334A78">Name</span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" id="name" asp-for="Name">
+                    <input type="text" class="form-control" id="name" asp-for="Name" required>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback">Please fill out this field.</div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-2">
                 <div class="input-group input-group-outline my-4 justify-content-end">
-                    <span class="badge bg-gradient-info">Icon</span>
+                    <span class="badge bg-gradient " style=" background-color:#334A78">Icon</span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" id="icon" asp-for="Icon">
+                    <input type="text" class="form-control" id="icon" asp-for="Icon" required>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback">Please fill out this field.</div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="text-end mx-auto">
-                <button type="submit" class="btn btn-danger" id="update">Update</button>
-                <button type="submit" class="btn btn-danger" id="delete">Remove</button>
-            </div>
+        <div class="col-md-8 d-flex justify-content-end my-2 px-2 ">
+            <button type="submit" class="btn mx-2" id="update" style="background-color:#AA7FC6;color:white">Update</button>
+            <button type="submit" class="btn " id="delete" style="background-color:#86C5D8;color:white">Remove</button>
         </div>
         @*<button type="submit" class="btn btn-danger" id="update">Update</button>*@
     </div>
