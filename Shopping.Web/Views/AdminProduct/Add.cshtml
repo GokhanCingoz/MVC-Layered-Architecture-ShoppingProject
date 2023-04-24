@@ -2,8 +2,8 @@
 @{
 }
 <style>
-    .container{
-        margin-left:inherit;
+    .container {
+        margin-left: inherit;
     }
 
     h1 {
@@ -21,7 +21,7 @@
 </div>
 <form method="post" class="mx-start needs-validation " novalidate>
     <div class="container mx-start">
-        
+
         <div class="row ">
             <div class="col-md-2">
                 <div class="input-group input-group-outline my-4 justify-content-end">
@@ -72,7 +72,7 @@
             </div>
             <div class="col-md-6">
                 <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" id="price" asp-for="Price" required >
+                    <input type="text" class="form-control" id="price" asp-for="Price" required>
                     <div class="valid-feedback"></div>
                     <div class="invalid-feedback">Please fill out this field.</div>
                 </div>
@@ -129,7 +129,7 @@
             <div class="col-md-6">
                 <div class="input-group input-group-outline my-3">
 
-                    <select class="form-select" aria-label="Select a category" >
+                    <select class="form-select" aria-label="Select a category" asp-for="CategoryId">
                         <option selected disabled>Select a category</option>
                         @foreach (var item in categoryList)
                         {
@@ -137,11 +137,11 @@
                         }
                     </select>
                 </div>
-                
+
             </div>
         </div>
         <div class="col-md-8 d-flex justify-content-end my-2 px-2 ">
-            <button type="submit" class="btn btn-info" ><i class="fa-solid fa-plus"></i> Add</button>
+            <button type="submit" class="btn btn-info"><i class="fa-solid fa-plus"></i> Add</button>
         </div>
     </div>
 </form>

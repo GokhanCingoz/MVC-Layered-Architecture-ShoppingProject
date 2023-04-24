@@ -22,7 +22,7 @@ namespace DataAccessLayer.Repositories
             //return _contextDb.Products.Include(x => x.Category).ToList();
             return _contextDb.Products.Include(x => x.Category).Where(x => x.IsDeleted == false).ToList();
         }
-        
+
         //Admin section
         public async Task<Product?> AddAsync(Product product)
         {
@@ -47,8 +47,9 @@ namespace DataAccessLayer.Repositories
                 existingProduct.Brand = product.Brand;
                 existingProduct.Price = product.Price;
                 existingProduct.Rating = product.Rating;
+                existingProduct.Stock = product.Stock;
                 existingProduct.ImgLink = product.ImgLink;
-                existingProduct.CategoryId= product.CategoryId;
+                existingProduct.CategoryId = product.CategoryId;
 
                 _contextDb.SaveChanges();
                 return existingProduct;

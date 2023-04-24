@@ -49,8 +49,6 @@ namespace Shopping.Web.Controllers
                 Stock = productModel.Stock,
                 ImgLink = productModel.ImgLink,
                 CategoryId = productModel.CategoryId,
-
-
             };
             await _productManagement.AddAsync(product);
             //return View(user);
@@ -97,6 +95,7 @@ namespace Shopping.Web.Controllers
                     Brand = product.Brand,
                     Price = product.Price,
                     Rating = product.Rating,
+                    Stock = product.Stock,
                     ImgLink = product.ImgLink,
                     CategoryId = product.CategoryId,
                 };
@@ -133,10 +132,10 @@ namespace Shopping.Web.Controllers
             ViewData["IsAdmin"] = IsAdmin();
             var product = new Product
             {
-                Id= productModel.Id,
+                Id = productModel.Id,
                 IsDeleted = productModel.IsDeleted
             };
-            var deletedProduct= _productManagement.Delete(product);
+            var deletedProduct = _productManagement.Delete(product);
             return Json(deletedProduct);
         }
         public bool IsAdmin()
@@ -145,6 +144,6 @@ namespace Shopping.Web.Controllers
             var IsAdmin = _loginManagement.UserAdminControl(userId);
             return IsAdmin;
         }
-      
+
     }
 }

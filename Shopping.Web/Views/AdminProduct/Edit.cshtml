@@ -13,8 +13,12 @@
     }
 
 </style>
+@{
+    var categoryListStr = HttpContextAccessor.HttpContext.Session.GetString("CategoryList");
+    var categoryList = string.IsNullOrEmpty(categoryListStr) ? new List<CategoryModel>() : JsonSerializer.Deserialize<List<CategoryModel>>(categoryListStr);
+}
 <div class="bg-opacity-10 py-2 mx-6" style="background-color:aliceblue">
-        <h1>Edit Product</h1>
+    <h1>Edit Product</h1>
 </div>
 <form class="mx-start needs-validation " novalidate>
     <div class="container mx-start">
@@ -26,7 +30,7 @@
             </div>
             <div class="col-md-6">
                 <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" id="id" readonly asp-for="Id"  />
+                    <input type="text" class="form-control" id="id" asp-for="Id" readonly />
                 </div>
             </div>
         </div>
@@ -80,7 +84,7 @@
             </div>
             <div class="col-md-6">
                 <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" id="price" asp-for="Price" required>
+                    <input type="number" step="0.01" class="form-control" id="price" asp-for="Price" required>
                     <div class="valid-feedback"></div>
                     <div class="invalid-feedback">Please fill out this field.</div>
                 </div>
@@ -94,7 +98,7 @@
             </div>
             <div class="col-md-6">
                 <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" id="rating" asp-for="Rating" required>
+                    <input type="number" step="0.01" class="form-control" id="rating" asp-for="Rating" required>
                     <div class="valid-feedback"></div>
                     <div class="invalid-feedback">Please fill out this field.</div>
                 </div>
@@ -108,7 +112,7 @@
             </div>
             <div class="col-md-6">
                 <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" id="stock" asp-for="Stock" required>
+                    <input type="number" class="form-control" id="stock" asp-for="Stock" required>
                     <div class="valid-feedback"></div>
                     <div class="invalid-feedback">Please fill out this field.</div>
                 </div>
@@ -131,60 +135,72 @@
         <div class="row">
             <div class="col-md-2">
                 <div class="input-group input-group-outline my-4 justify-content-end">
-                    <span class="badge bg-gradient " style=" background-color:#334A78">Category Id</span>
+                    <span class="badge bg-gradient " style=" background-color:#334A78">Category Name</span>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" id="categoryId" asp-for="CategoryId" required>
-                    <div class="valid-feedback"></div>
-                    <div class="invalid-feedback">Please fill out this field.</div>
-                </div>
+            <div class="col-md-6 my-3">
+                <select class="form-select" aria-label="Select a category" id="categoryId">
+                    <option selected disabled>Select a category</option>
+                    @foreach (var item in categoryList)
+                    {
+                        <option value=@item.Id style="background-color:#D0DAE2">@item.Name</option>
+                    }
+                </select>
             </div>
         </div>
-       
+
         <div class="col-md-8 d-flex justify-content-end my-2 px-2 ">
-            <button type="submit" class="btn mx-2" id="update" style="background-color:#AA7FC6;color:white">Update</button>
-            <button type="submit" class="btn " id="delete" style="background-color:#86C5D8;color:white">Remove</button>
+            <button type="button" class="btn mx-2" id="update" style="background-color:#AA7FC6;color:white">Update</button>
+            <button type="button" class="btn " id="delete" style="background-color:#86C5D8;color:white">Remove</button>
         </div>
     </div>
 </form>
 <script>
+
     $(function () {
+
         $("#update").click(function () {
 
-            var data =
-            {
-                Id: $("#id").val(),
-                Title: $("#title").val(),
-                Description: $("#description").val(),
-                Brand: $("#brand").val(),
-                Price: $("#price").val(),
-                Rating: $("#rating").val(),
-                Stock: $("#stock").val(),
-                ImgLink: $("#imgLink").val(),
-                CategoryId: $("#categoryId").val()
-            };
 
-            $.ajax({
-                url: '@Url.Action("EditProduct","AdminProduct")',
-                type: 'POST',
-                dataType: 'json',
-                data: data,
-                success: function (result) {
-                    if (result) {
+            if ($("#title").val() == "" || $("#description").val() == "" || $("#brand").val() == "" || $("#price").val() == "" || $("#rating").val() == "" || $("#stock").val() == "" || $("#imgLink").val() == "" || $("#categoryId").val() == "" || $("#categoryId").val() == null) {
+                notificationAlert("danger", "ERROR!!!", "Please make sure all fields are filled properly!!!")
+            }
+
+
+            else {
+
+                var data =
+                {
+                    Id: $("#id").val(),
+                    Title: $("#title").val(),
+                    Description: $("#description").val(),
+                    Brand: $("#brand").val(),
+                    Price: $("#price").val(),
+                    Rating: $("#rating").val(),
+                    Stock: $("#stock").val(),
+                    ImgLink: $("#imgLink").val(),
+                    CategoryId: $("#categoryId").val()
+                };
+
+                $.ajax({
+                    url: '@Url.Action("EditProduct","AdminProduct")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data,
+                    success: function (json) {
                         window.location.href = "/AdminProduct/List/";
-                    } else {
-                        window.location.href = "/AdminProduct/Edit?id=" + data.Id;
-                    }
-                },
-                error: function (xhr, status, error) {
-                    // Hata durumunda ne yapılacağını belirleyin
-                    console.log("Hata: " + error);
+                    },
+                    error: function (e) {
 
-                }
-            });
+                    }
+                });
+
+
+            }
+
+
         });
+
         $("#delete").click(function () {
 
             var data =
@@ -213,27 +229,7 @@
                 }
             });
         });
+
     });
-
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function () {
-        'use strict'
-
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.querySelectorAll('.needs-validation')
-
-        // Loop over them and prevent submission
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-    })()
 
 </script>
