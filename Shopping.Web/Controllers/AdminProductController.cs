@@ -46,8 +46,10 @@ namespace Shopping.Web.Controllers
                 Brand = productModel.Brand,
                 Price = productModel.Price,
                 Rating = productModel.Rating,
+                Stock = productModel.Stock,
                 ImgLink = productModel.ImgLink,
                 CategoryId = productModel.CategoryId,
+
 
             };
             await _productManagement.AddAsync(product);
@@ -116,6 +118,7 @@ namespace Shopping.Web.Controllers
                 Brand = productModel.Brand,
                 Price = productModel.Price,
                 Rating = productModel.Rating,
+                Stock = productModel.Stock,
                 ImgLink = productModel.ImgLink,
                 CategoryId = productModel.CategoryId,
             };
