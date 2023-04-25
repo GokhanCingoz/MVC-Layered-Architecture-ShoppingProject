@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Managements.Interfaces;
+﻿using BusinessLayer.Managements;
+using BusinessLayer.Managements.Interfaces;
 using EntityLayer.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ namespace Shopping.Web.Controllers
         public readonly ILoginManagement _loginManagement;
         public readonly ICategoryManagement _categoryManagement;
 
-        public HomeController(IProductManagement productManagement, ICartManagement cartManagement, IFavoriteManagement favoriteManagement, ILoginManagement loginManagement,ICategoryManagement categoryManagement)
+        public HomeController(IProductManagement productManagement, ICartManagement cartManagement, IFavoriteManagement favoriteManagement, ILoginManagement loginManagement, ICategoryManagement categoryManagement)
         {
             _productManagement = productManagement;
             _cartManagement = cartManagement;
@@ -36,7 +37,7 @@ namespace Shopping.Web.Controllers
 
             HttpContext.Session.SetString("CategoryId", 0.ToString()); // categoryId'yi index sayfasında 0'a setledik. Bu bilgiyi ister view'da, ister başka controllerda, istersek de controllerların'ın herhangibir metodunda kullanabiliriz.
 
-            var categories=_categoryManagement.GetAllCategories();
+            var categories = _categoryManagement.GetAllCategories();
 
             List<CategoryModel> categoriesModel = new List<CategoryModel>();
 
@@ -50,8 +51,8 @@ namespace Shopping.Web.Controllers
                 };
                 categoriesModel.Add(categoryModel);
             }
-           
-            HttpContext.Session.SetString("CategoryList", JsonSerializer.Serialize(categoriesModel)); 
+
+            HttpContext.Session.SetString("CategoryList", JsonSerializer.Serialize(categoriesModel));
 
             var favoriteProductIds = _favoriteManagement.GetAllFavoritesByUserId(userId).Select(x => x.ProductId).ToList();
 
@@ -238,7 +239,7 @@ namespace Shopping.Web.Controllers
 
             IEnumerable<Product> products = _productManagement.GetAllProduct();
 
-            if (categoryId!=0 )
+            if (categoryId != 0)
             {
                 products = products.Where(x => x.CategoryId == categoryId);
             }
@@ -268,15 +269,35 @@ namespace Shopping.Web.Controllers
             return PartialView("PartialView", model);
         }
 
-      /// <summary>
-      /// Database'den gelen product listesindeki productları View'a göndermek amacıyla Product Model'e çeviren metot.
-      /// </summary>
-      /// <param name="products"></param>
-      /// <param name="favoriteProductIds"></param>
-      /// <returns></returns>
+        public ActionResult ProductDetail(int? id)
+        {
+
+            var product = _productManagement.GetAllProduct().FirstOrDefault(x => x.Id == id);
+            var productModel = new ProductModel
+            {
+                Brand = product.Brand,
+                ImgLink = product.ImgLink,
+                Price = product.Price,
+                Rating = product.Rating,
+                Stock = product.Stock,
+                Description = product.Description,
+                Title = product.Title,
+
+            };
+
+            return PartialView("ProductDetailPartialView", productModel);
+        }
+
+
+        /// <summary>
+        /// Database'den gelen product listesindeki productları View'a göndermek amacıyla Product Model'e çeviren metot.
+        /// </summary>
+        /// <param name="products"></param>
+        /// <param name="favoriteProductIds"></param>
+        /// <returns></returns>
         private List<ProductModel> ProductModelList(List<Product> products, List<int> favoriteProductIds)
         {
-            var model = new List<ProductModel>(); 
+            var model = new List<ProductModel>();
 
 
             foreach (var item in products)
@@ -303,6 +324,7 @@ namespace Shopping.Web.Controllers
             }
 
             return model;
+
         }
     }
 }
