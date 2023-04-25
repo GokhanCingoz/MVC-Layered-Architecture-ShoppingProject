@@ -61,12 +61,6 @@
                         <td class="align-middle">
                             <a @*onclick="edit(@user.Id)" *@ href="/AdminUser/Edit?userId=@user.Id" class="btn btn-default mb-0 "><i class="fas fa-pencil-alt"></i> Edit</a>
                         </td>
-
-                        @*<td class="align-middle">
-                    <a href="javascript:;" class="text-secondary font-weight-normal text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                    Edit
-                    </a>
-                    </td>*@
                     </tr>
                 }
             </tbody>
@@ -74,10 +68,3 @@
     </div>
 </div>
 
-<script>
-    //function edit(userId) {
-
-    //    window.location.href = "/AdminUser/Edit?userId="+userId;
-    //}
-
-</script>
