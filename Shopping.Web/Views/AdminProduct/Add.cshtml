@@ -1,132 +1,170 @@
 ﻿@model Shopping.Web.Models.ProductModel
 @{
 }
-<div class="bg-opacity-10 py-2" style="background-color:aliceblue">
-    <div class="container">
-        <h1>Add Product</h1>
-    </div>
+<style>
+    .container {
+        margin-left: inherit;
+    }
+
+    h1 {
+        background: linear-gradient(43deg,#86C5D8 0%,#9C27B0 25%);
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+</style>
+@{
+    var categoryListStr = HttpContextAccessor.HttpContext.Session.GetString("CategoryList");
+    var categoryList = string.IsNullOrEmpty(categoryListStr) ? new List<CategoryModel>() : JsonSerializer.Deserialize<List<CategoryModel>>(categoryListStr);
+}
+<div class="bg-opacity-10 py-2 mx-6" style="background-color:aliceblue">
+    <h1>Add Product</h1>
 </div>
-<form method="post">
-    <div class="container text-center">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group input-group-outline my-4 justify-content-end">
-                    <span class="badge bg-gradient-info">Id</span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" readonly id="id" asp-for="Id">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group input-group-outline my-4 justify-content-end">
-                    <span class="badge bg-gradient-info">Title</span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" id="title" asp-for="Title">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group input-group-outline my-4 justify-content-end">
-                    <span class="badge bg-gradient-info">Description</span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" id="description" asp-for="Description">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group input-group-outline my-4 justify-content-end">
-                    <span class="badge bg-gradient-info">Brand</span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" id="brand" asp-for="Brand">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group input-group-outline my-4 justify-content-end">
-                    <span class="badge bg-gradient-info">Price</span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" id="price" asp-for="Price">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group input-group-outline my-4 justify-content-end">
-                    <span class="badge bg-gradient-info">Rating</span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" id="rating" asp-for="Rating">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group input-group-outline my-4 justify-content-end">
-                    <span class="badge bg-gradient-info">Stock</span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" id="stock" asp-for="Stock">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group input-group-outline my-4 justify-content-end">
-                    <span class="badge bg-gradient-info">Image Link</span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" id="imgLink" asp-for="ImgLink">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="input-group input-group-outline my-4 justify-content-end">
-                    <span class="badge bg-gradient-info">Category Name</span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" id="categoryId" asp-for="CategoryId">
-                </div>
-                @*<label for="exampleFormControlSelect1" class="ms-0">Category Name</label>*@
-                @*@foreach (var product in Model.x_Category.Name)
+<form method="post" class="mx-start needs-validation " novalidate>
+    <div class="container mx-start">
 
-                {
-                    <select class="form-control" id="exampleFormControlSelect1">
-                        <option>@product</option>
+        <div class="row ">
+            <div class="col-md-2">
+                <div class="input-group input-group-outline my-4 justify-content-end">
+                    <span class="badge bg-gradient" style=" background-color:#334A78">Title</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-3">
+                    <input type="text" class="form-control" id="title" asp-for="Title" required>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="input-group input-group-outline my-4 justify-content-end">
+                    <span class="badge bg-gradient" style=" background-color:#334A78">Description</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-3">
+                    <input type="text" class="form-control" id="description" asp-for="Description" required>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="input-group input-group-outline my-4 justify-content-end">
+                    <span class="badge bg-gradient" style=" background-color:#334A78">Brand</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-3">
+                    <input type="text" class="form-control" id="brand" asp-for="Brand" required>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="input-group input-group-outline my-4 justify-content-end">
+                    <span class="badge bg-gradient" style=" background-color:#334A78">Price</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-3">
+                    <input type="text" class="form-control" id="price" asp-for="Price" required>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="input-group input-group-outline my-4 justify-content-end">
+                    <span class="badge bg-gradient" style=" background-color:#334A78">Rating</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-3">
+                    <input type="text" class="form-control" id="rating" asp-for="Rating" required>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="input-group input-group-outline my-4 justify-content-end">
+                    <span class="badge bg-gradient" style=" background-color:#334A78">Stock</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-3">
+                    <input type="text" class="form-control" id="stock" asp-for="Stock" required>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="input-group input-group-outline my-4 justify-content-end">
+                    <span class="badge bg-gradient" style=" background-color:#334A78">Image Link</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-3">
+                    <input type="text" class="form-control" id="imgLink" asp-for="ImgLink" required>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback">Please fill out this field.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="input-group input-group-outline my-4 justify-content-end">
+                    <span class="badge bg-gradient" style=" background-color:#334A78">Category Name</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group input-group-outline my-3">
 
+                    <select class="form-select" aria-label="Select a category" asp-for="CategoryId">
+                        <option selected disabled>Select a category</option>
+                        @foreach (var item in categoryList)
+                        {
+                            <option value=@item.Id style="background-color:#D0DAE2">@item.Name</option>
+                        }
                     </select>
-                }*@
+                </div>
+
             </div>
         </div>
-        <div class="d-flex justify-content-end">
-            <button type="submit" class="btn btn-success"><i class="fa-solid fa-plus"></i> Add</button>
+        <div class="col-md-8 d-flex justify-content-end my-2 px-2 ">
+            <button type="submit" class="btn btn-info"><i class="fa-solid fa-plus"></i> Add</button>
         </div>
     </div>
 </form>
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+

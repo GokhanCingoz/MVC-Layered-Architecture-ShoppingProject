@@ -9,6 +9,7 @@ using Shopping.Web.Models;
 using Stripe;
 
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSession(option => { option.IdleTimeout = TimeSpan.FromHours(1); });

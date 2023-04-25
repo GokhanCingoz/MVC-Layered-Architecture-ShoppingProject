@@ -8,6 +8,7 @@ using EntityLayer.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Shopping.Web.Models;
+using System.Text.Json;
 
 namespace Shopping.Web.Controllers
 {
@@ -15,10 +16,14 @@ namespace Shopping.Web.Controllers
     {
         public readonly ILoginManagement _loginManagement;
         public readonly IProductManagement _productManagement;
-        public AdminProductController(IProductManagement productManagement, ILoginManagement loginManagement)
+        public readonly ICategoryManagement _categoryManagement;
+
+        public AdminProductController(IProductManagement productManagement, ILoginManagement loginManagement, ICategoryManagement categoryManagement)
         {
             _productManagement = productManagement;
             _loginManagement = loginManagement;
+            _categoryManagement = categoryManagement;
+
         }
         //Product Get Method
         [HttpGet]
@@ -41,9 +46,9 @@ namespace Shopping.Web.Controllers
                 Brand = productModel.Brand,
                 Price = productModel.Price,
                 Rating = productModel.Rating,
+                Stock = productModel.Stock,
                 ImgLink = productModel.ImgLink,
                 CategoryId = productModel.CategoryId,
-
             };
             await _productManagement.AddAsync(product);
             //return View(user);
@@ -55,6 +60,22 @@ namespace Shopping.Web.Controllers
         {
             var product = _productManagement.GetAllProduct();
             ViewData["IsAdmin"] = IsAdmin();
+            var categories = _categoryManagement.GetAllCategories();
+
+            List<CategoryModel> categoriesModel = new List<CategoryModel>();
+
+            foreach (var category in categories)
+            {
+                var categoryModel = new CategoryModel
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                    Icon = category.Icon,
+                };
+                categoriesModel.Add(categoryModel);
+            }
+
+            HttpContext.Session.SetString("CategoryList", JsonSerializer.Serialize(categoriesModel));
             return View(product);
         }
         //Product Edit - Get Action
@@ -74,6 +95,7 @@ namespace Shopping.Web.Controllers
                     Brand = product.Brand,
                     Price = product.Price,
                     Rating = product.Rating,
+                    Stock = product.Stock,
                     ImgLink = product.ImgLink,
                     CategoryId = product.CategoryId,
                 };
@@ -95,12 +117,12 @@ namespace Shopping.Web.Controllers
                 Brand = productModel.Brand,
                 Price = productModel.Price,
                 Rating = productModel.Rating,
+                Stock = productModel.Stock,
                 ImgLink = productModel.ImgLink,
                 CategoryId = productModel.CategoryId,
             };
 
             var updatedUser = _productManagement.Update(product);
-
             return Json(updatedUser != null);
         }
         //Product Delete - Post Action
@@ -110,10 +132,10 @@ namespace Shopping.Web.Controllers
             ViewData["IsAdmin"] = IsAdmin();
             var product = new Product
             {
-                Id= productModel.Id,
+                Id = productModel.Id,
                 IsDeleted = productModel.IsDeleted
             };
-            var deletedProduct= _productManagement.Delete(product);
+            var deletedProduct = _productManagement.Delete(product);
             return Json(deletedProduct);
         }
         public bool IsAdmin()
@@ -122,6 +144,6 @@ namespace Shopping.Web.Controllers
             var IsAdmin = _loginManagement.UserAdminControl(userId);
             return IsAdmin;
         }
-      
+
     }
 }
