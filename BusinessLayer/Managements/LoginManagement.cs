@@ -25,7 +25,6 @@ namespace BusinessLayer.Managements
             return users.FirstOrDefault(x => x.Username == username && x.Password == password);
 
         }
-
         public async Task<bool> LoginControlAsync(string username, string password)
         {
             var users = await _userRepository.GetAllUsersAsync();

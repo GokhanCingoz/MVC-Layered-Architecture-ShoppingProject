@@ -35,6 +35,7 @@ namespace Shopping.Web.Controllers
 
             return Json(user != null);
         }
+       
 
         public IActionResult SignUp()
         {
