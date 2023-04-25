@@ -49,47 +49,59 @@
             <div class="col-12">
                 <div class="card card-registration card-registration-2" style="border-radius: 15px;">
                     <div class="card-body p-0">
-                        <div class="row ">
-                            <div class="col-lg-8">
+                        <div class="row g-0">
+                            <div class="col-lg-12 shopping-cart my-auto">
                                 <div class="p-5">
                                     <div class="d-flex justify-content-between align-items-center mb-5">
-                                        <h1 class="fw-bold mb-0 text-black">MY PROFILE</h1>
+                                        <h1 class="fw-bold mb-0 text-black">My Profile</h1>
                                     </div>
 
-                                    <form>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="input-group input-group-outline my-3 focused is-focused">
-                                                    <label class="form-label">Name</label>
-                                                    <input type="text" id="name" class="form-control" value="@Model.Name">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="input-group input-group-outline my-3 focused is-focused">
-                                                    <label class="form-label">Surname</label>
-                                                    <input type="text" id="surname" class="form-control" value="@Model.Surname">
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="card">
+                                        <div class="table-responsive">
+                                            <table class="table align-items-center mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-uppercase text-black text-m font-weight-bolder ">Name</th>
+                                                        <th class="text-uppercase text-black text-m font-weight-bolder ps-2">Surname</th>
+                                                        <th class="text-center text-uppercase text-black text-m font-weight-bolder ">Password</th>
+                                                        <th class="text-center text-uppercase text-black text-m font-weight-bolder ">User Name</th>
+                                                        <th class="text-secondary opacity-7"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
 
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div id="emailDiv" class="input-group input-group-outline my-3 focused is-focused">
-                                                    <label class="form-label">User Name</label>
-                                                    <input id="email" type="email" class="form-control" value="@Model.Username">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="input-group input-group-outline my-3 focused is-focused">
-                                                    <label class="form-label">Password</label>
-                                                    <input id="phone" type="text" class="form-control" value="@Model.Password">
-                                                </div>
-                                            </div>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d-flex px-2 py-1">
+                                                                <div class="d-flex flex-column justify-content-center">
+                                                                    <p class="mb-0 text-m font-weight-bold">@Model.Name</p>
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p class="text-m  font-weight-bold mb-0">@Model.Surname</p>
+                                                        </td>
+                                                        <td class="align-middle text-center text-sm">
+                                                            <p class="text-m  font-weight-bold mb-0">@Model.Password</p>
+                                                        </td>
+                                                        <td class="align-middle text-center">
+                                                            <p class="text-m  font-weight-bold mb-0">@Model.Username</p>
+                                                        </td>
+                                                        <td class="align-middle text-center">
+                                                            <a  href="/Profile/Edit?userId=@Model.Id" class="btn btn-default mb-0 "><i class="fas fa-pencil-alt"></i> Edit profile</a>
+
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
                                         </div>
-                                        
-                                    </form>
+                                    </div>
+                                    <hr class="my-6">
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -97,4 +109,5 @@
         </div>
     </div>
 </section>
+
 
