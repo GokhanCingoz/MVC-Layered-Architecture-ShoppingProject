@@ -14,16 +14,25 @@ namespace Shopping.Web.Controllers
         public readonly IUserManagement _userManagement;
         private readonly IUserRepository userRepository;
         public readonly ILoginManagement _loginManagement;
+        public readonly ICartManagement _cartManagement;
+        public readonly IFavoriteManagement _favoriteManagement;
+        public readonly ICategoryManagement _categoryManagement;
 
 
-        public ProfileController(IUserRepository userRepository, IUserManagement userManagement, ILoginManagement loginManagement)
+        public ProfileController(IUserRepository userRepository, IUserManagement userManagement, ILoginManagement loginManagement, ICategoryManagement categoryManagement,IFavoriteManagement favoriteManagement,ICartManagement cartManagement)
         {
             _userManagement = userManagement;
             this.userRepository = userRepository;
             _loginManagement = loginManagement;
+            _categoryManagement = categoryManagement;
+            _favoriteManagement = favoriteManagement;
+            _cartManagement = cartManagement;
+
         }
         public IActionResult Index()
         {
+           
+
             var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
 
             var user = _userManagement.GetUserById(userId);
@@ -37,13 +46,35 @@ namespace Shopping.Web.Controllers
             };
             model.Id = userId;
 
+            ViewData["Title"] = "Profile";
+
+            var cartQuantity = _cartManagement.GetAllCartsQuantity(userId);
+
+            ViewData["TotalCartsQuantity"] = cartQuantity;
+
+            var favoritesQuantity = _favoriteManagement.GetAllFavoritesQuantity(userId);
+
+            ViewData["FavoriteQuantity"] = favoritesQuantity;
+
+            var IsAdmin = _loginManagement.UserAdminControl(userId);
+
             return View(model);
         }
         [HttpGet]
-        public async Task<IActionResult> EditProfile(int userId)
+        public async Task<IActionResult> Update(int userId)
         {
+            var userIdFor = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
+
+            ViewData["Title"] = "Edit Profile";
             var user = await _loginManagement.GetAsync(userId);
 
+            var cartQuantity = _cartManagement.GetAllCartsQuantity(userIdFor);
+
+            ViewData["TotalCartsQuantity"] = cartQuantity;
+
+            var favoritesQuantity = _favoriteManagement.GetAllFavoritesQuantity(userIdFor);
+
+            ViewData["FavoriteQuantity"] = favoritesQuantity;
             if (user != null)
             {
                 var editUserReq = new EditUserRequest
@@ -54,6 +85,7 @@ namespace Shopping.Web.Controllers
                     Password = user.Password,
                     Username = user.Username,
                     IsAdmin = user.IsAdmin
+                     
                 };
                 return View(editUserReq);
             }
@@ -80,5 +112,7 @@ namespace Shopping.Web.Controllers
 
             return Json(updatedUser != null);
         }
+
+       
     }
 }
