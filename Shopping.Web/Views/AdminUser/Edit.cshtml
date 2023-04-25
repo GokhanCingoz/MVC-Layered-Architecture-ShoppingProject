@@ -17,12 +17,12 @@
 <div class="bg-opacity-10 py-2 mx-6" style="background-color:aliceblue">
     <h1>Edit User</h1>
 </div>
-<form method="post" class="mx-start needs-validation " novalidate name="myForm" onsubmit="return validateForm()">
+<form class="mx-start needs-validation " novalidate>
     <div class="container mx-start">
         <div class="row">
             <div class="col-md-2">
                 <div class="input-group input-group-outline my-4 justify-content-end">
-                    <span class="badge bg-gradient" style=" background-color:#334A78" id="id">User Id</span>
+                    <span class="badge bg-gradient" style=" background-color:#334A78" >User Id</span>
                 </div>
             </div>
             <div class="col-md-6">
@@ -34,69 +34,61 @@
         <div class="row">
             <div class="col-md-2">
                 <div class="input-group input-group-outline my-4 justify-content-end">
-                    <span class="badge bg-gradient" style=" background-color:#334A78" id="name">Name</span>
+                    <span class="badge bg-gradient" style=" background-color:#334A78">Name</span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="input-group input-group-outline my-3 focused is-focused">
-                    <input type="text" class="form-control" id="name" asp-for="Name" required>
-                    <div class="valid-feedback"></div>
-                    <div class="invalid-feedback">Please fill out this field.</div>
+                    <input type="text" class="form-control" id="name" asp-for="Name">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-2">
                 <div class="input-group input-group-outline my-4 justify-content-end">
-                    <span class="badge bg-gradient" style=" background-color:#334A78" id="surname">Surname</span>
+                    <span class="badge bg-gradient" style=" background-color:#334A78">Surname</span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" id="surname" asp-for="Surname" required>
-                    <div class="valid-feedback"></div>
-                    <div class="invalid-feedback">Please fill out this field.</div>
+                    <input type="text" class="form-control" id="surname" asp-for="Surname">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-2">
                 <div class="input-group input-group-outline my-4 justify-content-end">
-                    <span class="badge bg-gradient" style=" background-color:#334A78" id="password">Password</span>
+                    <span class="badge bg-gradient" style=" background-color:#334A78">Password</span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" id="password" asp-for="Password" required>
-                    <div class="valid-feedback"></div>
-                    <div class="invalid-feedback">Please fill out this field.</div>
+                    <input type="text" class="form-control" id="password" asp-for="Password">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-2">
                 <div class="input-group input-group-outline my-4 justify-content-end">
-                    <span class="badge bg-gradient" style=" background-color:#334A78" id="username">Username</span>
+                    <span class="badge bg-gradient" style=" background-color:#334A78">Username</span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="input-group input-group-outline my-3">
-                    <input type="text" class="form-control" id="userName" asp-for="Username" required>
-                    <div class="valid-feedback"></div>
-                    <div class="invalid-feedback">Please fill out this field.</div>
+                    <input type="text" class="form-control" id="userName" asp-for="Username">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-2">
                 <div class="input-group input-group-outline my-4 justify-content-end">
-                    <span class="badge bg-gradient" style=" background-color:#334A78" id="isAdmin">Status</span>
+                    <span class="badge bg-gradient" style=" background-color:#334A78">Status</span>
 
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="input-group input-group-outline my-3">
-                    <select class="form-control" id="isAdmin" asp-for="IsAdmin">
+                    <select class="form-control" id="isAdmin">
                         <option value="true">Admin</option>
                         <option value="false">User</option>
                     </select>
@@ -104,43 +96,42 @@
             </div>
         </div>
         <div class="col-md-8 d-flex justify-content-end my-2 px-2 ">
-            <button type="submit" class="btn mx-2" id="update" style="background-color:#AA7FC6;color:white">Update</button>
-            <button type="submit" class="btn " id="delete" style="background-color:#86C5D8;color:white">Remove</button>
+            <button type="button" class="btn mx-2" id="update" style="background-color:#AA7FC6;color:white">Update</button>
+            <button type="button" class="btn " id="delete" style="background-color:#86C5D8;color:white">Remove</button>
         </div>
     </div>
 </form>
 <script>
     $(function () {
         $("#update").click(function () {
+            if ($("#id").val() == "" || $("#name").val() == "" || $("#surname").val() == "" || $("#password").val() == "" || $("#userName").val() == "" || $("#isAdmin").val() == "") {
+                notificationAlert("danger", "ERROR!!!", "Please make sure all fields are filled properly!!!")
+            }
 
-            var data =
-            {
-                Id: $("#id").val(),
-                Name: $("#name").val(),
-                Surname: $("#surname").val(),
-                Password: $("#password").val(),
-                Username: $("#userName").val(),
-                IsAdmin: $("#isAdmin").val()
-            };
+            else {
+                var data =
+                {
+                    Id: $("#id").val(),
+                    Name: $("#name").val(),
+                    Surname: $("#surname").val(),
+                    Password: $("#password").val(),
+                    Username: $("#userName").val(),
+                    IsAdmin: $("#isAdmin").val()
+                };
 
-            $.ajax({
-                url: '@Url.Action("EditUser","AdminUser")',
-                type: 'POST',
-                dataType: 'json',
-                data: data,
-                success: function (result) {
-                    if (result) {
+                $.ajax({
+                    url: '@Url.Action("EditUser","AdminUser")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data,
+                    success: function (json) {
                         window.location.href = "/AdminUser/List/";
-                    } else {
-                        window.location.href = "/AdminUser/Edit?id=" + data.Id;
-                    }
-                },
-                error: function (xhr, status, error) {
-                    // Hata durumunda ne yapılacağını belirleyin
-                    console.log("Hata: " + error);
+                    },
+                    error: function (e) {
 
-                }
-            });
+                    }
+                });
+            }
         });
         $("#delete").click(function () {
 
@@ -174,40 +165,6 @@
                 }
             });
         });
-    });
-
-
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function () {
-        'use strict'
-
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.querySelectorAll('.needs-validation')
-
-        // Loop over them and prevent submission
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-    })()
-    $(function validateForm() {
-        var name = document.forms["myForm"]["name"].value;
-        var surname = document.forms["myForm"]["surname"].value;
-        var password = document.forms["myForm"]["password"].value;
-        var username = document.forms["myForm"]["priusernamece"].value;
-        var isAdmin = document.forms["myForm"]["isAdmin"].value;
-
-        if (name == "" || surname == "" || password == "" || username == "" || isAdmin == "") {
-            alert("Lütfen tüm alanları doldurun.");
-            return false;
-        }
-    });
+    }); 
 </script>
 

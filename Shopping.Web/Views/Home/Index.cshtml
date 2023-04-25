@@ -16,13 +16,13 @@
     }
 </style>
 @model List<ProductModel>
-<div class="row">
+<div class="row" >
 
     @if (Convert.ToBoolean(ViewData["IsAdmin"]))
     {
-        <div class="alert text-center w-75 mx-auto mt-6" style="background-color:rgb(234,232,232)">
-            <span>Adminsin </span>
-        </div>
+        @*<div class="alert text-center w-75 mx-auto mt-6" style="background-color:rgb(234,232,232)">
+            <span>Welcome to Admin Dashboard </span>
+        </div>*@
     }
 
     else

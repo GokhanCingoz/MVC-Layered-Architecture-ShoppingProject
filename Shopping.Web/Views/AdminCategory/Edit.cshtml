@@ -14,7 +14,7 @@
 
 </style>
 <div class="bg-opacity-10 py-2 mx-6" style="background-color:aliceblue">
-        <h1>Edit Category</h1>
+    <h1>Edit Category</h1>
 </div>
 <form class="mx-start needs-validation " novalidate>
     <div class="container mx-start">
@@ -59,8 +59,8 @@
             </div>
         </div>
         <div class="col-md-8 d-flex justify-content-end my-2 px-2 ">
-            <button type="submit" class="btn mx-2" id="update" style="background-color:#AA7FC6;color:white">Update</button>
-            <button type="submit" class="btn " id="delete" style="background-color:#86C5D8;color:white">Remove</button>
+            <button type="button" class="btn mx-2" id="update" style="background-color:#AA7FC6;color:white">Update</button>
+            <button type="button" class="btn " id="delete" style="background-color:#86C5D8;color:white">Remove</button>
         </div>
         @*<button type="submit" class="btn btn-danger" id="update">Update</button>*@
     </div>
@@ -68,32 +68,31 @@
 <script>
     $(function () {
         $("#update").click(function () {
+            if ($("#name").val() == "" || $("#icon").val() == "" ) {
+                notificationAlert("danger", "ERROR!!!", "Please make sure all fields are filled properly!!!")
+            }
 
-            var data =
-            {
-                Id: $("#id").val(),
-                Name: $("#name").val(),
-                Icon: $("#icon").val()
-            };
+            else {
+                var data =
+                {
+                    Id: $("#id").val(),
+                    Name: $("#name").val(),
+                    Icon: $("#icon").val()
+                };
 
-            $.ajax({
-                url: '@Url.Action("EditCategory","AdminCategory")',
-                type: 'POST',
-                dataType: 'json',
-                data: data,
-                success: function (result) {
-                    if (result) {
+                $.ajax({
+                    url: '@Url.Action("EditCategory","AdminCategory")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data,
+                    success: function (json) {
                         window.location.href = "/AdminCategory/List/";
-                    } else {
-                        window.location.href = "/AdminCategory/Edit?id=" + data.Id;
-                    }
-                },
-                error: function (xhr, status, error) {
-                    // Hata durumunda ne yapılacağını belirleyin
-                    console.log("Hata: " + error);
+                    },
+                    error: function (e) {
 
-                }
-            });
+                    }
+                });
+            }
         });
         $("#delete").click(function () {
 
@@ -101,8 +100,7 @@
             {
                 Id: $("#id").val(),
                 Name: $("#name").val(),
-                Icon: $("#icon").val(),
-                IsDeleted: $("#isDeleted").val()
+                Icon: $("#icon").val()
             };
 
             $.ajax({
@@ -125,5 +123,4 @@
             });
         });
     });
-
 </script>

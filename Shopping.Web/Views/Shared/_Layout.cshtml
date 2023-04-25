@@ -33,7 +33,11 @@
     <link id="pagestyle" href="~/material-dashboard-master/assets/css/material-dashboard.css?v=3.0.4" rel="stylesheet" />
     <link id="pagestyle" href="~/css/site.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-
+    <style>
+        .bckground{
+            background-image: url(https://img.freepik.com/premium-photo/technology-abstract-circuit-board-texture-background-hightech-futuristic-circuit-board-banner-wallpa_230610-923.jpg?w=1060)
+        }
+    </style>
 </head>
 
 @{
@@ -42,7 +46,7 @@
 }
 
 
-<body class="g-sidenav-show  bg-gray-100">
+<body class="g-sidenav-show  bg-gray-100 bckground">
 
     @if (Convert.ToBoolean(ViewData["IsAdmin"]))
     {
@@ -150,7 +154,7 @@
             </div>
 
         </aside>
-        <main class="main-content border-radius-lg ">
+        <main class="main-content border-radius-lg"  >
             <!-- Navbar -->
 
             <nav class="navbar navbar-main  navbar-expand-lg my-auto px-0 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
@@ -160,7 +164,7 @@
                         <div class="ms-md-auto pe-md-3 d-flex align-items-center">
 
                             <div class="input-group input-group-outline" style=" color:rgb(156,39,176)">
-                                <span class="d-sm-inline d-none" style=" color:rgb(156,39,176)">Hoşgeldiniz!!!!</span>
+                                <span class="d-sm-inline d-none" style=" color:rgb(156,39,176)">Welcome!!!</span>
                             </div>
 
                         </div>
