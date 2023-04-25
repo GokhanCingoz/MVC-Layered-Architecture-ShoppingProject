@@ -25,6 +25,8 @@ namespace Shopping.Web.Controllers
         }
         public IActionResult Index()
         {
+            ViewData["Title"] = "My Orders";
+
             var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
 
             SetCommonViewData(userId);
@@ -71,6 +73,8 @@ namespace Shopping.Web.Controllers
 
         public ActionResult DeliveryDetail(int? id)
         {
+            ViewData["Title"] = "My Orders";
+
             var userId = string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")) ? 0 : int.Parse(HttpContext.Session.GetString("UserId"));
             var delivery = _deliveryManagement.GetDeliveryByUserId(userId).FirstOrDefault(x=>x.Id== id);
             var deliveryModel = new DeliveryModel

@@ -63,7 +63,6 @@
                                                     <tr>
                                                         <th class="text-uppercase text-black text-m font-weight-bolder ">Name</th>
                                                         <th class="text-uppercase text-black text-m font-weight-bolder ps-2">Surname</th>
-                                                        <th class="text-center text-uppercase text-black text-m font-weight-bolder ">Password</th>
                                                         <th class="text-center text-uppercase text-black text-m font-weight-bolder ">User Name</th>
                                                         <th class="text-secondary opacity-7"></th>
                                                     </tr>
@@ -82,14 +81,11 @@
                                                         <td>
                                                             <p class="text-m  font-weight-bold mb-0">@Model.Surname</p>
                                                         </td>
-                                                        <td class="align-middle text-center text-sm">
-                                                            <p class="text-m  font-weight-bold mb-0">@Model.Password</p>
-                                                        </td>
                                                         <td class="align-middle text-center">
                                                             <p class="text-m  font-weight-bold mb-0">@Model.Username</p>
                                                         </td>
                                                         <td class="align-middle text-center">
-                                                            <a  href="/Profile/Edit?userId=@Model.Id" class="btn btn-default mb-0 "><i class="fas fa-pencil-alt"></i> Edit profile</a>
+                                                            <a  href="/Profile/Update?userId=@Model.Id" class="btn btn-default mb-0 "><i class="fas fa-pencil-alt"></i> Edit profile</a>
 
                                                         </td>
                                                     </tr>
